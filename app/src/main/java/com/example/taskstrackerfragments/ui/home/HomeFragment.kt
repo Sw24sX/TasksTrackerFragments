@@ -21,15 +21,11 @@ import com.google.android.material.tabs.TabLayout
 
 class HomeFragment : Fragment(), OnTaskClickListener {
 
-    //private lateinit var homeViewModel: HomeViewModel
+    // TODO Насколько это корректно?
     private lateinit var activityContext: Context
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activityContext = context
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -38,20 +34,12 @@ class HomeFragment : Fragment(), OnTaskClickListener {
             savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-
         val pageViewAdapter = PageViewAdapter(activityContext, childFragmentManager)
         val viewPager: ViewPager = view.findViewById(R.id.view_pager)
         viewPager.adapter = pageViewAdapter
         val tabs: TabLayout = view.findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
-
         return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
     }
 
     override fun onStateClick(task: Task, position: Int) {

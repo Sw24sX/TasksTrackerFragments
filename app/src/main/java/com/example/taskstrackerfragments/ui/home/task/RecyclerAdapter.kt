@@ -21,4 +21,10 @@ class RecyclerAdapter(private var tasks: MutableList<Task>, private val onClickL
             onClickListener.onStateClick(tasks[position], position)
         }
     }
+
+    fun update(task: Task, position: Int?) {
+        if (position != null) tasks.add(position, task)
+        else tasks.add(task)
+        
+    }
 }

@@ -1,0 +1,92 @@
+package com.example.taskstrackerfragments.ui.home.taskfragments
+
+import android.content.Context
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.RadioGroup
+import android.widget.Spinner
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import com.example.taskstrackerfragments.R
+import com.example.taskstrackerfragments.ui.home.task.RecyclerAdapter
+import com.example.taskstrackerfragments.ui.home.task.Task
+import kotlin.properties.Delegates
+
+class ChangeTaskFragment: Fragment() {
+    companion object {
+        const val TASK: String = "Task"
+
+        fun newInstance() : ChangeTaskFragment {
+            return ChangeTaskFragment()
+        }
+
+        fun newInstance(task: Task) : ChangeTaskFragment {
+            var args = Bundle()
+            args.putSerializable(TASK, task)
+            var result = ChangeTaskFragment()
+            result.arguments = args
+            return result
+        }
+    }
+
+    private lateinit var activityContext: Context
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activityContext = context
+    }
+
+    private var task: Task? = null
+
+    private var position by Delegates.notNull<Int>()
+    private lateinit var name: TextView
+    private lateinit var description: TextView
+    private lateinit var countExecution: TextView
+    private lateinit var period: TextView
+    private lateinit var priority: Spinner
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        arguments?.let {
+            task = it.getSerializable(TASK) as Task
+        }
+
+        if (task == null) task = Task.default()
+        val currentTask = task!!
+
+        initElements(view)
+
+        this.name.text = currentTask.name
+        this.description.text = currentTask.description
+        this.countExecution.text = currentTask.countExecutions
+        this.period.text = currentTask.period
+        if(currentTask.priorityPosition != null)
+            this.priority.setSelection(currentTask.priorityPosition!!.toInt())
+    }
+
+    private fun initElements(view: View) {
+        name = view.findViewById(R.id.createName)
+        description = view.findViewById(R.id.createDescription)
+        countExecution = view.findViewById(R.id.createCountExecution)
+        period = view.findViewById(R.id.createPeriod)
+        priority = view.findViewById(R.id.selectPriority)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_change_task, container, false)
+
+        view.findViewById<Button>(R.id.save).setOnClickListener { onClickSave(view) }
+        return view
+    }
+
+    fun onClickSave(view: View) {
+        // todo
+    }
+}

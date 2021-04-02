@@ -13,14 +13,19 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import com.example.taskstrackerfragments.ui.home.task.Task
+import com.example.taskstrackerfragments.ui.home.taskfragments.ChangeTaskFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveTask {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -36,5 +41,32 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private lateinit var typeTasksFragment: Fragment
+
+    override fun changeTask(task: Task, position: Int, fragment: Fragment) {
+        typeTasksFragment = fragment
+        var a = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        var transaction = supportFragmentManager.beginTransaction()
+        transaction.hide(a!!)
+        //transaction.commit()
+
+        var fragment = ChangeTaskFragment.newInstance(task)
+
+        transaction.add(R.id.app_bar_main, fragment, CHANGE_TASK)
+        transaction.commit()
+    }
+
+    override fun createTask(fragment: Fragment) {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveTask(task: Task) {
+        TODO("Not yet implemented")
+    }
+
+    companion object {
+        const val CHANGE_TASK: String = "change_task"
     }
 }

@@ -10,9 +10,8 @@ import com.example.taskstrackerfragments.ui.home.taskfragments.GoodTasksFragment
 class PageViewAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getCount(): Int = 2
 
-    override fun getItem(position: Int): Fragment = when(position) {
-        0 -> GoodTasksFragment.newInstance()
-        else -> BadTasksFragment.newInstance()
+    override fun getItem(position: Int): Fragment{
+        return GoodTasksFragment.newInstance()
     }
 
     override fun getPageTitle(position: Int): CharSequence = when(position) {

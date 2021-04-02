@@ -7,15 +7,13 @@ class Task(
     var description: String,
     var countExecutions: String,
     var period: String,
-    var type: String,
-    var typeId: String?,
     var priority: String,
     var priorityPosition: String?
 ): Serializable {
     companion object {
 
         fun default(): Task {
-            return Task("", "", "", "", "", null, "", null)
+            return Task("", "", "", "", "", null)
         }
     }
 }
