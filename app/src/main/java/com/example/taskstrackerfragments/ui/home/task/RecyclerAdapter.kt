@@ -23,8 +23,14 @@ class RecyclerAdapter(private var tasks: MutableList<Task>, private val onClickL
     }
 
     fun update(task: Task, position: Int?) {
-        if (position != null) tasks.add(position, task)
-        else tasks.add(task)
-        
+        if (position != null && position >= 0 && position < tasks.count()) {
+            tasks[position] = task
+            notifyItemChanged(position)
+        }
+        else {
+            tasks.add(task)
+            notifyItemChanged(tasks.count())
+        }
+
     }
 }

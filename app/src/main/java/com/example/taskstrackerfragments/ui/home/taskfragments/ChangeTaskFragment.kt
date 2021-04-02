@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RadioGroup
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.example.taskstrackerfragments.OnSaveTask
 import com.example.taskstrackerfragments.R
 import com.example.taskstrackerfragments.ui.home.task.RecyclerAdapter
 import com.example.taskstrackerfragments.ui.home.task.Task
@@ -25,9 +23,9 @@ class ChangeTaskFragment: Fragment() {
         }
 
         fun newInstance(task: Task) : ChangeTaskFragment {
-            var args = Bundle()
+            val args = Bundle()
             args.putSerializable(TASK, task)
-            var result = ChangeTaskFragment()
+            val result = ChangeTaskFragment()
             result.arguments = args
             return result
         }
@@ -41,7 +39,6 @@ class ChangeTaskFragment: Fragment() {
 
     private var task: Task? = null
 
-    private var position by Delegates.notNull<Int>()
     private lateinit var name: TextView
     private lateinit var description: TextView
     private lateinit var countExecution: TextView
@@ -87,6 +84,16 @@ class ChangeTaskFragment: Fragment() {
     }
 
     fun onClickSave(view: View) {
-        // todo
+        val prioritySelectedItem = priority.selectedItemPosition
+        val priorityText = priority.selectedItem.toString()
+        val result = task!!
+        result.name = name.text.toString()
+        result.description =description.text.toString()
+        result.countExecutions = countExecution.text.toString()
+        result.period = period.text.toString()
+        result.priority = priorityText
+        result.priorityPosition = prioritySelectedItem.toString()
+
+        (activityContext as OnSaveTask).saveTask(result, this)
     }
 }

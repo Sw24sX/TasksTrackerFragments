@@ -42,8 +42,7 @@ class GoodTasksFragment: Fragment(), OnTaskClickListener, OnPutTaskInRecycler {
 
     override fun onStateClick(task: Task, position: Int) {
         val changeTask = activityContext as OnChangeTask
-        var fragment = parentFragment
-        changeTask.changeTask(task, position, fragment!!)
+        changeTask.changeTask(task, position, this)
 
     }
 

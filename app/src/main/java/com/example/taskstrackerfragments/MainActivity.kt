@@ -1,9 +1,6 @@
 package com.example.taskstrackerfragments
 
 import android.os.Bundle
-import android.view.Menu
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import com.example.taskstrackerfragments.ui.home.task.OnPutTaskInRecycler
 import com.example.taskstrackerfragments.ui.home.task.Task
 import com.example.taskstrackerfragments.ui.home.taskfragments.ChangeTaskFragment
 
@@ -43,30 +41,34 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    private lateinit var typeTasksFragment: Fragment
-
-    override fun changeTask(task: Task, position: Int, fragment: Fragment) {
-        typeTasksFragment = fragment
-        var a = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-        var transaction = supportFragmentManager.beginTransaction()
-        transaction.hide(a!!)
-        //transaction.commit()
-
-        var fragment = ChangeTaskFragment.newInstance(task)
-
-        transaction.add(R.id.app_bar_main, fragment, CHANGE_TASK)
-        transaction.commit()
-    }
+    private lateinit var returnTask: OnPutTaskInRecycler
+    private var position: Int? = null
 
     override fun createTask(fragment: Fragment) {
         TODO("Not yet implemented")
     }
 
-    override fun saveTask(task: Task) {
-        TODO("Not yet implemented")
+    override fun saveTask(task: Task, fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .remove(fragment)
+            .show(supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!)
+            .commit()
+        returnTask.putTaskInRecycler(task, position)
     }
 
     companion object {
         const val CHANGE_TASK: String = "change_task"
+    }
+
+    override fun changeTask(task: Task, position: Int, fragment: OnPutTaskInRecycler) {
+        this.returnTask = fragment
+        this.position = position
+        val transaction = supportFragmentManager.beginTransaction()
+
+        transaction.hide(supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!)
+
+        //todo залезет под toolbar
+        transaction.add(R.id.app_bar_main, ChangeTaskFragment.newInstance(task), CHANGE_TASK)
+        transaction.commit()
     }
 }

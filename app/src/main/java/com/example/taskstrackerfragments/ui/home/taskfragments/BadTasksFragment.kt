@@ -36,7 +36,7 @@ class BadTasksFragment: Fragment(), OnTaskClickListener {
 
     override fun onStateClick(task: Task, position: Int) {
         val changeTask = activityContext as OnChangeTask
-        changeTask.changeTask(task, position, this)
+        //changeTask.changeTask(task, position, this)
     }
 
     fun onClickNew(view: View) {
