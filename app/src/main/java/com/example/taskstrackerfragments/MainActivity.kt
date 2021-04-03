@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -44,8 +43,12 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
     private lateinit var returnTask: OnPutTaskInRecycler
     private var position: Int? = null
 
-    override fun createTask(fragment: Fragment) {
-        TODO("Not yet implemented")
+    override fun createTask(fragment: OnPutTaskInRecycler) {
+        returnTask = fragment
+        supportFragmentManager.beginTransaction()
+                .hide(supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!)
+                .add(R.id.app_bar_main, ChangeTaskFragment.newInstance(), CHANGE_TASK)
+                .commit()
     }
 
     override fun saveTask(task: Task, fragment: Fragment) {
@@ -54,6 +57,7 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
             .show(supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!)
             .commit()
         returnTask.putTaskInRecycler(task, position)
+        position = null
     }
 
     companion object {
@@ -63,12 +67,9 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
     override fun changeTask(task: Task, position: Int, fragment: OnPutTaskInRecycler) {
         this.returnTask = fragment
         this.position = position
-        val transaction = supportFragmentManager.beginTransaction()
-
-        transaction.hide(supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!)
-
-        //todo залезет под toolbar
-        transaction.add(R.id.app_bar_main, ChangeTaskFragment.newInstance(task), CHANGE_TASK)
-        transaction.commit()
+        supportFragmentManager.beginTransaction()
+            .hide(supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!)
+            .add(R.id.app_bar_main, ChangeTaskFragment.newInstance(task), CHANGE_TASK)
+            .commit()
     }
 }

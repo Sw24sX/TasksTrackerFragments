@@ -19,7 +19,7 @@ import com.example.taskstrackerfragments.ui.home.taskfragments.GoodTasksFragment
 import com.example.taskstrackerfragments.ui.home.viewpager.PageViewAdapter
 import com.google.android.material.tabs.TabLayout
 
-class HomeFragment : Fragment(), OnTaskClickListener {
+class HomeFragment : Fragment() {
 
     // TODO Насколько это корректно?
     private lateinit var activityContext: Context
@@ -40,9 +40,5 @@ class HomeFragment : Fragment(), OnTaskClickListener {
         val tabs: TabLayout = view.findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
         return view
-    }
-
-    override fun onStateClick(task: Task, position: Int) {
-        TODO("Not yet implemented")
     }
 }
