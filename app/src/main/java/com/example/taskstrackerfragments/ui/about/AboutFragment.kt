@@ -10,22 +10,15 @@ import com.example.taskstrackerfragments.R
 
 class AboutFragment : Fragment() {
 
-    //private lateinit var slideshowViewModel: SlideshowViewModel
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        //slideshowViewModel =
-        //        ViewModelProvider(this).get(SlideshowViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_about, container, false)
         val textView: TextView = root.findViewById(R.id.text_slideshow)
-        //slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
-        //    textView.text = it
-        //})
 
-        textView.text = "About fragment"
+        textView.text = "Здесь должно быть описание приложения"
         return root
     }
 }

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstrackerfragments.R
+import java.io.Serializable
 
 class RecyclerAdapter(private var tasks: MutableList<Task>, private val onClickListener: OnTaskClickListener) : RecyclerView.Adapter<ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,4 +34,14 @@ class RecyclerAdapter(private var tasks: MutableList<Task>, private val onClickL
         }
 
     }
+
+    fun getTasks(): TasksList {
+        return TasksList(tasks)
+    }
+
+    fun setTasks(tasksList: TasksList) {
+        tasks = tasksList.tasks
+    }
+
+    class TasksList(val tasks: MutableList<Task>): Serializable
 }
