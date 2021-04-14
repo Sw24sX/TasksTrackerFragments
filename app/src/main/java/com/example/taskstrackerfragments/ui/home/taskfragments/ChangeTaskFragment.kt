@@ -9,12 +9,9 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstrackerfragments.OnSaveTask
 import com.example.taskstrackerfragments.R
-import com.example.taskstrackerfragments.ui.home.task.RecyclerAdapter
 import com.example.taskstrackerfragments.ui.home.task.Task
-import kotlin.properties.Delegates
 
 class ChangeTaskFragment: Fragment() {
     companion object {
@@ -45,6 +42,9 @@ class ChangeTaskFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //todo сделть что то с передаваемым таском
+        arguments?.let {
+            task = it.getSerializable(TASK) as Task
+        }
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return ChangeTaskViewModel(task) as T
@@ -60,21 +60,23 @@ class ChangeTaskFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.let {
-            task = it.getSerializable(TASK) as Task
-        }
-
         if (task == null) task = Task.default()
         val currentTask = task!!
 
         initElements(view)
 
-        this.name.text = currentTask.name
-        this.description.text = currentTask.description
-        this.countExecution.text = currentTask.countExecutions
-        this.period.text = currentTask.period
-        if(currentTask.priorityPosition != null)
-            this.priority.setSelection(currentTask.priorityPosition!!.toInt())
+        viewModel.task.observe(viewLifecycleOwner, {
+            this.name.text = it.name
+            this.description.text = it.description
+            this.countExecution.text = it.countExecutions
+            this.period.text = it.period
+            if(it.priorityPosition != null)
+                this.priority.setSelection(currentTask.priorityPosition!!.toInt())
+        })
+
+        viewModel.onSaveTask.observe(viewLifecycleOwner, {
+            (activityContext as OnSaveTask).saveTask(it, this)
+        })
     }
 
     private fun initElements(view: View) {
@@ -92,21 +94,22 @@ class ChangeTaskFragment: Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_change_task, container, false)
 
-        view.findViewById<Button>(R.id.save).setOnClickListener { onClickSave(view) }
+        view.findViewById<Button>(R.id.save).setOnClickListener {
+            viewModel.onClickSaveTask(grabUserInput())
+        }
         return view
     }
 
-    fun onClickSave(view: View) {
+    private fun grabUserInput(): Task {
         val prioritySelectedItem = priority.selectedItemPosition
         val priorityText = priority.selectedItem.toString()
-        val result = task!!
+        val result = Task.default()
         result.name = name.text.toString()
         result.description =description.text.toString()
         result.countExecutions = countExecution.text.toString()
         result.period = period.text.toString()
         result.priority = priorityText
         result.priorityPosition = prioritySelectedItem.toString()
-
-        (activityContext as OnSaveTask).saveTask(result, this)
+        return result
     }
 }

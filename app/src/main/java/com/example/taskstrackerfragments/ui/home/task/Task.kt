@@ -2,7 +2,7 @@ package com.example.taskstrackerfragments.ui.home.task
 
 import java.io.Serializable
 
-class Task(
+data class Task(
     var name: String,
     var description: String,
     var countExecutions: String,

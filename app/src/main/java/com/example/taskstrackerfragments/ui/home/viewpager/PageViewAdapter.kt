@@ -12,10 +12,6 @@ class PageViewAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm), Serializa
 
     override fun getItem(position: Int): Fragment{
         return TasksFragment.newInstance()
-//        return when(position) {
-//            1 -> TasksFragment.newInstance(mutableListOf())
-//            else -> TasksFragment.newInstance(mutableListOf())
-//        }
     }
 
     override fun getPageTitle(position: Int): CharSequence = when(position) {
