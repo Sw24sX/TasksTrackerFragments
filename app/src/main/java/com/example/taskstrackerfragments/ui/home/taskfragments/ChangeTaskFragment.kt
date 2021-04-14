@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstrackerfragments.OnSaveTask
 import com.example.taskstrackerfragments.R
@@ -38,6 +40,17 @@ class ChangeTaskFragment: Fragment() {
     }
 
     private var task: Task? = null
+    private lateinit var viewModel: ChangeTaskViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        //todo сделть что то с передаваемым таском
+        viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return ChangeTaskViewModel(task) as T
+            }
+        }).get(ChangeTaskViewModel::class.java)
+    }
 
     private lateinit var name: TextView
     private lateinit var description: TextView
