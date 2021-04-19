@@ -47,7 +47,7 @@ class RecyclerAdapter(private var tasks: Model, private val onClickListener: OnT
         }
         else {
             val filterPattern = name.toLowerCase().trim()
-            val result = tasksList.filter {
+            val result = tasks.getElements().filter {
                 it.name.toLowerCase().startsWith(filterPattern)
             }
             tasksList = result
