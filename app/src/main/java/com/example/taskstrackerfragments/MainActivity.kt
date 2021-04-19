@@ -2,6 +2,7 @@ package com.example.taskstrackerfragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -73,4 +74,5 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
             .add(R.id.app_bar_main, ChangeTaskFragment.newInstance(task), CHANGE_TASK)
             .commit()
     }
+
 }

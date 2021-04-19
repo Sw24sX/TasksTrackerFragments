@@ -2,12 +2,10 @@ package com.example.taskstrackerfragments.ui.home.taskfragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +13,7 @@ import com.example.taskstrackerfragments.OnChangeTask
 import com.example.taskstrackerfragments.OnCreateNewTask
 import com.example.taskstrackerfragments.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.taskstrackerfragments.ui.home.task.Model
 
 
 class TasksFragment: Fragment() {
@@ -25,7 +24,7 @@ class TasksFragment: Fragment() {
     }
 
     private lateinit var activityContext: Context
-    private lateinit var viewModel: TasksViewModel
+    lateinit var viewModel: TasksViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -33,7 +32,7 @@ class TasksFragment: Fragment() {
 
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return TasksViewModel() as T
+                return TasksViewModel(Model()) as T
             }
         }).get(TasksViewModel::class.java)
     }
@@ -54,7 +53,7 @@ class TasksFragment: Fragment() {
             changeTask.changeTask(it.task, it.position, viewModel)
         })
 
-        viewModel.onAddTAsk.observe(viewLifecycleOwner, {
+        viewModel.onAddTask.observe(viewLifecycleOwner, {
             val createTask = activityContext as OnCreateNewTask
             createTask.createTask(viewModel)
         })
@@ -67,6 +66,7 @@ class TasksFragment: Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_tasks, container, false)
         view.findViewById<FloatingActionButton>(R.id.floating_action_button).setOnClickListener { viewModel.onClickAddTask() }
+
         return view
     }
 }

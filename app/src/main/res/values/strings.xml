@@ -10,6 +10,12 @@
     <string name="descriptionTask">Описание</string>
     <string name="about">About</string>
     <string name="home">home</string>
+    <string name="filters_and_sort">Фильтры и сортировки</string>
+    <string name="sort">Количество выполнений:</string>
+    <string name="top">Top</string>
+    <string name="find">Find</string>
+    <string name="name_task">Название привычки</string>
+    <string name="bottom">Bottom</string>
 
     <string-array name="types">
         <item>Нет</item>

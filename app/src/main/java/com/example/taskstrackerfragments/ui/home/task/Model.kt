@@ -11,7 +11,15 @@ class Model {
         tasks.add(position, task)
     }
 
+    fun putTask(task: Task) {
+        tasks.add(task)
+    }
+
     fun getElements(): List<Task> {
         return tasks
+    }
+
+    fun count(): Int {
+        return tasks.count()
     }
 }
