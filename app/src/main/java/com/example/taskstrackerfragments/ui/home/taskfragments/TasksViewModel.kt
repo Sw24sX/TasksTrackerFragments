@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.taskstrackerfragments.R
+import com.example.taskstrackerfragments.model.Model
 import com.example.taskstrackerfragments.ui.home.task.*
 
 class TasksViewModel(val model: Model): ViewModel(), OnTaskClickListener, OnPutTaskInRecycler {
@@ -16,6 +17,8 @@ class TasksViewModel(val model: Model): ViewModel(), OnTaskClickListener, OnPutT
     val onStateClick: MutableLiveData<ChangeTaskData> = mutableOnStateClick
     val recyclerAdapterObserver: LiveData<RecyclerAdapter> = mutableRecyclerAdapterObserver
     val onAddTask: LiveData<Any> = mutableOnAddTask
+
+    var test: Int = 0
 
     private val recyclerAdapter: RecyclerAdapter = RecyclerAdapter(model, this)
 

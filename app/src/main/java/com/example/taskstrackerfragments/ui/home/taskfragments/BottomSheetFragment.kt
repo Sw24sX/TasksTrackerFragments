@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.taskstrackerfragments.R
-import com.example.taskstrackerfragments.ui.home.task.Model
+import com.example.taskstrackerfragments.model.Model
 
 
 class BottomSheetFragment: Fragment() {
@@ -28,7 +28,7 @@ class BottomSheetFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = requireParentFragment().let {
+        viewModel = requireActivity().let {
             ViewModelProvider(it, object : ViewModelProvider.Factory {
                 override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                     return TasksViewModel(Model()) as T

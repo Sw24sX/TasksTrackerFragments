@@ -13,17 +13,30 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.taskstrackerfragments.model.Model
 import com.example.taskstrackerfragments.ui.home.task.OnPutTaskInRecycler
 import com.example.taskstrackerfragments.ui.home.task.Task
 import com.example.taskstrackerfragments.ui.home.taskfragments.ChangeTaskFragment
+import com.example.taskstrackerfragments.ui.home.taskfragments.TasksViewModel
 
 class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveTask {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var viewModel: TasksViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return TasksViewModel(Model()) as T
+            }
+        }).get(TasksViewModel::class.java)
+
+        viewModel.test = 1
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
