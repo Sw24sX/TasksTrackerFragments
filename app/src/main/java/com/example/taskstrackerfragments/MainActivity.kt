@@ -1,8 +1,6 @@
 package com.example.taskstrackerfragments
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -66,8 +64,8 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
         const val CHANGE_TASK: String = "change_task"
     }
 
-    override fun changeTask(task: Task, position: Int, fragment: OnPutTaskInRecycler) {
-        this.returnTask = fragment
+    override fun changeTask(task: Task, position: Int, putTaskInRecycler: OnPutTaskInRecycler) {
+        this.returnTask = putTaskInRecycler
         this.position = position
         supportFragmentManager.beginTransaction()
             .hide(supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!)

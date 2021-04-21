@@ -5,5 +5,5 @@ import com.example.taskstrackerfragments.ui.home.task.OnPutTaskInRecycler
 import com.example.taskstrackerfragments.ui.home.task.Task
 
 interface OnChangeTask {
-    fun changeTask(task: Task, position: Int, fragment: OnPutTaskInRecycler)
+    fun changeTask(task: Task, position: Int, putTaskInRecycler: OnPutTaskInRecycler)
 }

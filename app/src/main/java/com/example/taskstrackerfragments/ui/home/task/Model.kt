@@ -8,7 +8,7 @@ class Model {
     }
 
     fun putTask(position: Int, task: Task) {
-        tasks.add(position, task)
+        tasks[position] = task
     }
 
     fun putTask(task: Task) {

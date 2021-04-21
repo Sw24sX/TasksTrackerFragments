@@ -10,7 +10,7 @@ import com.example.taskstrackerfragments.ui.home.task.*
 
 class TasksViewModel(val model: Model): ViewModel(), OnTaskClickListener, OnPutTaskInRecycler {
     private val mutableRecyclerAdapterObserver: MutableLiveData<RecyclerAdapter> = MutableLiveData()
-    private val mutableOnStateClick: MutableLiveData<ChangeTaskData> = MutableLiveData()
+    private val mutableOnStateClick: SingleLineEvent<ChangeTaskData> = SingleLineEvent()
     private val mutableOnAddTask: SingleLineEvent<Any> = SingleLineEvent()
 
     val onStateClick: MutableLiveData<ChangeTaskData> = mutableOnStateClick
