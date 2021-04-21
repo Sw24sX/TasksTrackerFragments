@@ -21,14 +21,25 @@ class TasksFragment: Fragment() {
         fun newInstance(): TasksFragment {
             return TasksFragment()
         }
+
+        const val VIEW_MODEL_CREATED: Boolean = false
     }
 
     private lateinit var activityContext: Context
     lateinit var viewModel: TasksViewModel
+    private var viewModelHasCreated: Boolean = false
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activityContext = context
+
+        if(arguments != null){
+            arguments.let {
+                viewModelHasCreated = it?.getBoolean(VIEW_MODEL_CREATED )
+            }
+        }
+
 
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
