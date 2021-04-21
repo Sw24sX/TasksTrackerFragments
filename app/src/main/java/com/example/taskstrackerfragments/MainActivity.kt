@@ -1,6 +1,7 @@
 package com.example.taskstrackerfragments
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -43,6 +44,19 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
     private lateinit var returnTask: OnPutTaskInRecycler
     private var position: Int? = null
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable(RETURN_TASK, returnTask)
+        if(position != null)
+            outState.putInt(POSITION, position!!)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        if (savedInstanceState.containsKey(POSITION)) position = savedInstanceState.getInt(POSITION)
+        returnTask = savedInstanceState.getSerializable(RETURN_TASK) as OnPutTaskInRecycler
+    }
+
     override fun createTask(fragment: OnPutTaskInRecycler) {
         returnTask = fragment
         supportFragmentManager.beginTransaction()
@@ -60,10 +74,6 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
         position = null
     }
 
-    companion object {
-        const val CHANGE_TASK: String = "change_task"
-    }
-
     override fun changeTask(task: Task, position: Int, putTaskInRecycler: OnPutTaskInRecycler) {
         this.returnTask = putTaskInRecycler
         this.position = position
@@ -73,4 +83,9 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
             .commit()
     }
 
+    companion object {
+        const val CHANGE_TASK: String = "change_task"
+        const val RETURN_TASK: String = "return_task"
+        const val POSITION: String = "position"
+    }
 }
