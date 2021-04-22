@@ -11,17 +11,6 @@ import com.example.taskstrackerfragments.ui.home.task.Model
 
 
 class BottomSheetFragment: Fragment() {
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_bottom_sheet, container, false)
-        view.findViewById<Button>(R.id.find_name).setOnClickListener { viewModel.onClickFindTasksByName(view) }
-        view.findViewById<Button>(R.id.sort_top).setOnClickListener { viewModel.onClickSortByTop() }
-        view.findViewById<Button>(R.id.sort_bottom).setOnClickListener { viewModel.onClickSortByBottom() }
-        return view
-    }
-
     private lateinit var viewModel: TasksViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,5 +23,16 @@ class BottomSheetFragment: Fragment() {
                 }
             }).get(TasksViewModel::class.java)
         }
+    }
+
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_bottom_sheet, container, false)
+        view.findViewById<Button>(R.id.find_name).setOnClickListener { viewModel.onClickFindTasksByName(view) }
+        view.findViewById<Button>(R.id.sort_top).setOnClickListener { viewModel.onClickSortByTop() }
+        view.findViewById<Button>(R.id.sort_bottom).setOnClickListener { viewModel.onClickSortByBottom() }
+        return view
     }
 }

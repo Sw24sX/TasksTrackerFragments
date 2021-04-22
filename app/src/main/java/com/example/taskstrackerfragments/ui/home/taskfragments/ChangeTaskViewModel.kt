@@ -17,10 +17,6 @@ class ChangeTaskViewModel(private var _task: Task?): ViewModel() {
     val task: LiveData<Task> = mutableTask
 
     init {
-        load()
-    }
-
-    private fun load() {
         if (_task == null) _task = Task.default()
         mutableTask.value = _task
     }

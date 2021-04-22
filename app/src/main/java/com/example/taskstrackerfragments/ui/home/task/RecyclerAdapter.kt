@@ -7,6 +7,7 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstrackerfragments.R
 import java.io.Serializable
+import java.lang.NumberFormatException
 
 class RecyclerAdapter(private var tasks: Model, private val onClickListener: OnTaskClickListener) : RecyclerView.Adapter<ViewHolder>() {
     private var tasksList: List<Task> = tasks.getElements()
@@ -56,12 +57,26 @@ class RecyclerAdapter(private var tasks: Model, private val onClickListener: OnT
     }
 
     fun sortByTop() {
-        tasksList = tasksList.sortedBy { it.countExecutions.toInt() }
+        tasksList = tasksList.sortedBy {
+            try {
+                it.countExecutions.toInt()
+            }
+            catch(ex: NumberFormatException) {
+                0
+            }
+        }
         notifyDataSetChanged()
     }
 
     fun sortByBottom() {
-        tasksList = tasksList.sortedByDescending { it.countExecutions }
+        tasksList = tasksList.sortedByDescending {
+            try {
+                it.countExecutions.toInt()
+            }
+            catch(ex: NumberFormatException) {
+                0
+            }
+        }
         notifyDataSetChanged()
     }
 }

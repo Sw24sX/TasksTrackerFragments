@@ -14,23 +14,14 @@ import com.example.taskstrackerfragments.R
 import com.example.taskstrackerfragments.ui.home.task.Task
 
 class ChangeTaskFragment: Fragment() {
-    companion object {
-        const val TASK: String = "Task"
-
-        fun newInstance() : ChangeTaskFragment {
-            return ChangeTaskFragment()
-        }
-
-        fun newInstance(task: Task) : ChangeTaskFragment {
-            val args = Bundle()
-            args.putSerializable(TASK, task)
-            val result = ChangeTaskFragment()
-            result.arguments = args
-            return result
-        }
-    }
-
     private lateinit var activityContext: Context
+
+    private lateinit var name: TextView
+    private lateinit var description: TextView
+    private lateinit var countExecution: TextView
+    private lateinit var period: TextView
+    private lateinit var priority: Spinner
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activityContext = context
@@ -52,11 +43,18 @@ class ChangeTaskFragment: Fragment() {
         }).get(ChangeTaskViewModel::class.java)
     }
 
-    private lateinit var name: TextView
-    private lateinit var description: TextView
-    private lateinit var countExecution: TextView
-    private lateinit var period: TextView
-    private lateinit var priority: Spinner
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_change_task, container, false)
+
+        view.findViewById<Button>(R.id.save).setOnClickListener {
+            viewModel.onClickSaveTask(grabUserInput())
+        }
+        return view
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -87,19 +85,6 @@ class ChangeTaskFragment: Fragment() {
         priority = view.findViewById(R.id.selectPriority)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_change_task, container, false)
-
-        view.findViewById<Button>(R.id.save).setOnClickListener {
-            viewModel.onClickSaveTask(grabUserInput())
-        }
-        return view
-    }
-
     private fun grabUserInput(): Task {
         val prioritySelectedItem = priority.selectedItemPosition
         val priorityText = priority.selectedItem.toString()
@@ -111,5 +96,21 @@ class ChangeTaskFragment: Fragment() {
         result.priority = priorityText
         result.priorityPosition = prioritySelectedItem.toString()
         return result
+    }
+
+    companion object {
+        const val TASK: String = "Task"
+
+        fun newInstance() : ChangeTaskFragment {
+            return ChangeTaskFragment()
+        }
+
+        fun newInstance(task: Task) : ChangeTaskFragment {
+            val args = Bundle()
+            args.putSerializable(TASK, task)
+            val result = ChangeTaskFragment()
+            result.arguments = args
+            return result
+        }
     }
 }
