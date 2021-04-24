@@ -49,15 +49,13 @@ class TasksFragment: Fragment() {
 
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return TasksViewModel(db, typeTasks) as T
+                return TasksViewModel(db, typeTasks, parentFragment!!.viewLifecycleOwner) as T
             }
         }).get(TasksViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
 
         retainInstance = true
     }
