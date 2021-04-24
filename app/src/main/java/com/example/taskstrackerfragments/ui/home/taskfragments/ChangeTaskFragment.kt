@@ -11,7 +11,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.taskstrackerfragments.OnSaveTask
 import com.example.taskstrackerfragments.R
-import com.example.taskstrackerfragments.ui.home.task.Task
+import com.example.taskstrackerfragments.ui.home.task.datatask.Task
+import com.example.taskstrackerfragments.ui.home.task.datatask.TaskType
 
 class ChangeTaskFragment: Fragment() {
     private lateinit var activityContext: Context
@@ -28,17 +29,18 @@ class ChangeTaskFragment: Fragment() {
     }
 
     private var task: Task? = null
+    private lateinit var typeTask: TaskType
     private lateinit var viewModel: ChangeTaskViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //todo сделть что то с передаваемым таском
         arguments?.let {
-            task = it.getSerializable(TASK) as Task
+            task = it.getSerializable(TASK) as Task?
+            typeTask = it.getSerializable(TASK_TYPE) as TaskType
         }
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return ChangeTaskViewModel(task) as T
+                return ChangeTaskViewModel(task, typeTask) as T
             }
         }).get(ChangeTaskViewModel::class.java)
     }
@@ -58,7 +60,7 @@ class ChangeTaskFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (task == null) task = Task.default()
+        if (task == null) task = Task.default(typeTask)
         val currentTask = task!!
 
         initElements(view)
@@ -68,12 +70,12 @@ class ChangeTaskFragment: Fragment() {
             this.description.text = it.description
             this.countExecution.text = it.countExecutions
             this.period.text = it.period
-            if(it.priorityPosition != null)
+            if(it.priorityPosition != null && it.priorityPosition != "")
                 this.priority.setSelection(currentTask.priorityPosition!!.toInt())
         })
 
         viewModel.onSaveTask.observe(viewLifecycleOwner, {
-            (activityContext as OnSaveTask).saveTask(it, this)
+            (activityContext as OnSaveTask).saveTask(it, this, typeTask)
         })
     }
 
@@ -88,7 +90,7 @@ class ChangeTaskFragment: Fragment() {
     private fun grabUserInput(): Task {
         val prioritySelectedItem = priority.selectedItemPosition
         val priorityText = priority.selectedItem.toString()
-        val result = Task.default()
+        val result = Task.default(typeTask)
         result.name = name.text.toString()
         result.description =description.text.toString()
         result.countExecutions = countExecution.text.toString()
@@ -100,14 +102,20 @@ class ChangeTaskFragment: Fragment() {
 
     companion object {
         const val TASK: String = "Task"
+        const val TASK_TYPE: String = "task_type"
 
-        fun newInstance() : ChangeTaskFragment {
-            return ChangeTaskFragment()
+        fun newInstance(type: TaskType) : ChangeTaskFragment {
+            val args = Bundle()
+            args.putSerializable(TASK_TYPE, type)
+            val result = ChangeTaskFragment()
+            result.arguments = args
+            return result
         }
 
-        fun newInstance(task: Task) : ChangeTaskFragment {
+        fun newInstance(task: Task, type: TaskType) : ChangeTaskFragment {
             val args = Bundle()
             args.putSerializable(TASK, task)
+            args.putSerializable(TASK_TYPE, type)
             val result = ChangeTaskFragment()
             result.arguments = args
             return result

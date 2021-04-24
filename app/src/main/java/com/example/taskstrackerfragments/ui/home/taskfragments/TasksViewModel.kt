@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.taskstrackerfragments.R
 import com.example.taskstrackerfragments.ui.home.task.*
+import com.example.taskstrackerfragments.ui.home.task.datatask.Task
 
 class TasksViewModel(model: Model): ViewModel(), OnTaskClickListener, OnPutTaskInRecycler {
     private val mutableRecyclerAdapterObserver: MutableLiveData<RecyclerAdapter> = MutableLiveData()

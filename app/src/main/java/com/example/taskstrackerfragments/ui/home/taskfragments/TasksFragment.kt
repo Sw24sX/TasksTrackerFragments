@@ -14,17 +14,26 @@ import com.example.taskstrackerfragments.OnCreateNewTask
 import com.example.taskstrackerfragments.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.example.taskstrackerfragments.ui.home.task.Model
+import com.example.taskstrackerfragments.ui.home.task.datatask.AppDatabase
+import com.example.taskstrackerfragments.ui.home.task.datatask.TaskType
 
 
 class TasksFragment: Fragment() {
     companion object {
-        fun newInstance(): TasksFragment {
-            return TasksFragment()
+        fun newInstance(typeTask: TaskType, db: AppDatabase): TasksFragment {
+            val args = Bundle()
+            args.putSerializable(TYPE_TASK, typeTask)
+            val result = TasksFragment()
+            result.arguments = args
+            return result
         }
+
+        const val TYPE_TASK: String = "type task"
     }
 
     private lateinit var activityContext: Context
     lateinit var viewModel: TasksViewModel
+    private lateinit var typeTasks: TaskType
 
 
     override fun onAttach(context: Context) {
@@ -40,6 +49,11 @@ class TasksFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        arguments?.let {
+            typeTasks = it.getSerializable(TYPE_TASK) as TaskType
+        }
+
         retainInstance = true
     }
 
@@ -51,12 +65,12 @@ class TasksFragment: Fragment() {
 
         viewModel.onStateClick.observe(viewLifecycleOwner, {
             val changeTask = activityContext as OnChangeTask
-            changeTask.changeTask(it.task, it.position, viewModel)
+            changeTask.changeTask(it.task, it.position, viewModel, typeTasks)
         })
 
         viewModel.onAddTask.observe(viewLifecycleOwner, {
             val createTask = activityContext as OnCreateNewTask
-            createTask.createTask(viewModel)
+            createTask.createTask(viewModel, typeTasks)
         })
     }
 

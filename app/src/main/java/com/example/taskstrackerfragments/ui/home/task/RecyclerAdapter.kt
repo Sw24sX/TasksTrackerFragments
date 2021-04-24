@@ -2,11 +2,9 @@ package com.example.taskstrackerfragments.ui.home.task
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstrackerfragments.R
-import java.io.Serializable
+import com.example.taskstrackerfragments.ui.home.task.datatask.Task
 import java.lang.NumberFormatException
 
 class RecyclerAdapter(private var tasks: Model, private val onClickListener: OnTaskClickListener) : RecyclerView.Adapter<ViewHolder>() {

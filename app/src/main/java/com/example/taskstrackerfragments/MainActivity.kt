@@ -1,7 +1,6 @@
 package com.example.taskstrackerfragments
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,8 +11,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.room.Room
 import com.example.taskstrackerfragments.ui.home.task.OnPutTaskInRecycler
-import com.example.taskstrackerfragments.ui.home.task.Task
+import com.example.taskstrackerfragments.ui.home.task.datatask.AppDatabase
+import com.example.taskstrackerfragments.ui.home.task.datatask.Task
+import com.example.taskstrackerfragments.ui.home.task.datatask.TaskType
 import com.example.taskstrackerfragments.ui.home.taskfragments.ChangeTaskFragment
 
 class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveTask {
@@ -57,15 +59,15 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
         returnTask = savedInstanceState.getSerializable(RETURN_TASK) as OnPutTaskInRecycler
     }
 
-    override fun createTask(fragment: OnPutTaskInRecycler) {
+    override fun createTask(fragment: OnPutTaskInRecycler, typeTask: TaskType) {
         returnTask = fragment
         supportFragmentManager.beginTransaction()
                 .hide(supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!)
-                .add(R.id.app_bar_main, ChangeTaskFragment.newInstance(), CHANGE_TASK)
+                .add(R.id.app_bar_main, ChangeTaskFragment.newInstance(typeTask), CHANGE_TASK)
                 .commit()
     }
 
-    override fun saveTask(task: Task, fragment: Fragment) {
+    override fun saveTask(task: Task, fragment: Fragment, typeTask: TaskType) {
         supportFragmentManager.beginTransaction()
             .remove(fragment)
             .show(supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!)
@@ -74,12 +76,12 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
         position = null
     }
 
-    override fun changeTask(task: Task, position: Int, putTaskInRecycler: OnPutTaskInRecycler) {
+    override fun changeTask(task: Task, position: Int, putTaskInRecycler: OnPutTaskInRecycler, typeTask: TaskType) {
         this.returnTask = putTaskInRecycler
         this.position = position
         supportFragmentManager.beginTransaction()
             .hide(supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!)
-            .add(R.id.app_bar_main, ChangeTaskFragment.newInstance(task), CHANGE_TASK)
+            .add(R.id.app_bar_main, ChangeTaskFragment.newInstance(task, typeTask), CHANGE_TASK)
             .commit()
     }
 

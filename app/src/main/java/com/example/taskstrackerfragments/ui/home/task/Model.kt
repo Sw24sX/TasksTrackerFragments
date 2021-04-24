@@ -1,5 +1,7 @@
 package com.example.taskstrackerfragments.ui.home.task
 
+import com.example.taskstrackerfragments.ui.home.task.datatask.Task
+
 class Model {
     private val tasks: MutableList<Task> = mutableListOf()
 
