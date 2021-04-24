@@ -31,7 +31,10 @@ class HomeFragment : Fragment() {
         val db = Room.databaseBuilder(
             activityContext,
             AppDatabase::class.java, "AppDataBase"
-        ).allowMainThreadQueries().build()
+        )
+            .allowMainThreadQueries()
+            .fallbackToDestructiveMigration()
+            .build()
 
         val pageViewAdapter = PageViewAdapter(childFragmentManager, db)
         val viewPager: ViewPager = view.findViewById(R.id.view_pager)

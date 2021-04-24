@@ -13,7 +13,6 @@ import com.example.taskstrackerfragments.OnChangeTask
 import com.example.taskstrackerfragments.OnCreateNewTask
 import com.example.taskstrackerfragments.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.example.taskstrackerfragments.ui.home.task.Model
 import com.example.taskstrackerfragments.ui.home.task.datatask.AppDatabase
 import com.example.taskstrackerfragments.ui.home.task.datatask.TaskType
 
@@ -23,26 +22,34 @@ class TasksFragment: Fragment() {
         fun newInstance(typeTask: TaskType, db: AppDatabase): TasksFragment {
             val args = Bundle()
             args.putSerializable(TYPE_TASK, typeTask)
+            args.putSerializable(DB, db)
             val result = TasksFragment()
             result.arguments = args
             return result
         }
 
         const val TYPE_TASK: String = "type task"
+        const val DB: String = "db"
     }
 
     private lateinit var activityContext: Context
     lateinit var viewModel: TasksViewModel
     private lateinit var typeTasks: TaskType
+    private lateinit var db: AppDatabase
 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activityContext = context
 
+        arguments?.let {
+            typeTasks = it.getSerializable(TYPE_TASK) as TaskType
+            db = it.getSerializable(DB) as AppDatabase
+        }
+
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return TasksViewModel(Model()) as T
+                return TasksViewModel(db, typeTasks) as T
             }
         }).get(TasksViewModel::class.java)
     }
@@ -50,9 +57,7 @@ class TasksFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        arguments?.let {
-            typeTasks = it.getSerializable(TYPE_TASK) as TaskType
-        }
+
 
         retainInstance = true
     }

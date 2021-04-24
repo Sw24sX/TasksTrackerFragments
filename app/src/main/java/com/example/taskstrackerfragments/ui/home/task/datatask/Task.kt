@@ -14,7 +14,8 @@ data class Task(
     var priorityPosition: String?,
     var type: String
 ): Serializable {
-    @PrimaryKey(autoGenerate = true) var id: Int = 0
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
 
     companion object {
         fun default(type: TaskType): Task {

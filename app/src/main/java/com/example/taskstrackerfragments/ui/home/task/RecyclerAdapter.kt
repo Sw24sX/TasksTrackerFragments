@@ -7,8 +7,7 @@ import com.example.taskstrackerfragments.R
 import com.example.taskstrackerfragments.ui.home.task.datatask.Task
 import java.lang.NumberFormatException
 
-class RecyclerAdapter(private var tasks: Model, private val onClickListener: OnTaskClickListener) : RecyclerView.Adapter<ViewHolder>() {
-    private var tasksList: List<Task> = tasks.getElements()
+class RecyclerAdapter(private var tasks: MutableList<Task>, private val onClickListener: OnTaskClickListener) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_item, parent, false)
@@ -16,65 +15,29 @@ class RecyclerAdapter(private var tasks: Model, private val onClickListener: OnT
     }
 
     override fun getItemCount(): Int {
-        return tasksList.count()
+        return tasks.count()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(tasksList[position], position)
+        holder.bind(tasks[position], position)
         holder.itemView.setOnClickListener {
-            onClickListener.onStateClick(tasksList[position], position)
+            onClickListener.onStateClick(tasks[position], position)
         }
     }
 
-    fun update(task: Task, position: Int?) {
+    fun updateTask(task: Task, position: Int?) {
         if (position != null && position >= 0 && position < tasks.count()) {
-            tasks.putTask(position, task)
-            tasksList = tasks.getElements()
+            tasks[position] = task
             notifyItemChanged(position)
         }
         else {
-            tasks.putTask(task)
-            tasksList = tasks.getElements()
+            tasks.add(task)
             notifyItemChanged(tasks.count())
         }
     }
 
-    fun filter(name: String) {
-        if (name.isEmpty()) {
-            tasksList = tasks.getElements()
-            notifyDataSetChanged()
-        }
-        else {
-            val filterPattern = name.toLowerCase().trim()
-            val result = tasks.getElements().filter {
-                it.name.toLowerCase().startsWith(filterPattern)
-            }
-            tasksList = result
-            notifyDataSetChanged()
-        }
-    }
-
-    fun sortByTop() {
-        tasksList = tasksList.sortedBy {
-            try {
-                it.countExecutions.toInt()
-            }
-            catch(ex: NumberFormatException) {
-                0
-            }
-        }
-        notifyDataSetChanged()
-    }
-
-    fun sortByBottom() {
-        tasksList = tasksList.sortedByDescending {
-            try {
-                it.countExecutions.toInt()
-            }
-            catch(ex: NumberFormatException) {
-                0
-            }
-        }
+    fun updateListTasks(filteredTasks: MutableList<Task>){
+        tasks = filteredTasks
         notifyDataSetChanged()
     }
 }

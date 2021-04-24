@@ -6,15 +6,17 @@ import java.io.Serializable
 @Dao
 interface TaskDao: Serializable {
     @Query("SELECT * FROM task")
-    fun getAll(): List<Task>
+    fun getAll(): MutableList<Task>
 
     @Query("SELECT * FROM task WHERE id = :id")
     fun getById(id: Long): Task
 
     @Query("SELECT * FROM task WHERE type = :type")
-    fun getTasksByType(type: TaskType): List<Task>
+    fun getTasksByType(type: String): MutableList<Task>
+    @Query("SELECT COUNT(*) FROM task WHERE type = :type")
+    fun getCountTasksByType(type: TaskType): Int
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(task: Task)
 
     @Update

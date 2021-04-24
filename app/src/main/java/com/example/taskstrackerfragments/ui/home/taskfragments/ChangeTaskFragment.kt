@@ -90,7 +90,7 @@ class ChangeTaskFragment: Fragment() {
     private fun grabUserInput(): Task {
         val prioritySelectedItem = priority.selectedItemPosition
         val priorityText = priority.selectedItem.toString()
-        val result = Task.default(typeTask)
+        val result = if (task != null) task!! else Task.default(typeTask)
         result.name = name.text.toString()
         result.description =description.text.toString()
         result.countExecutions = countExecution.text.toString()
