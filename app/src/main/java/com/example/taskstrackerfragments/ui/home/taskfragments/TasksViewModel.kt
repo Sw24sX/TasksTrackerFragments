@@ -10,7 +10,7 @@ import com.example.taskstrackerfragments.ui.home.task.datatask.Task
 import com.example.taskstrackerfragments.ui.home.task.datatask.TaskType
 import java.lang.NumberFormatException
 
-class TasksViewModel(private val db: AppDatabase, private val type: TaskType, owner: LifecycleOwner): ViewModel(), OnTaskClickListener, OnPutTaskInRecycler {
+class TasksViewModel(private val db: AppDatabase, type: TaskType, owner: LifecycleOwner): ViewModel(), OnTaskClickListener, OnPutTaskInRecycler {
     private val mutableRecyclerAdapterObserver: MutableLiveData<RecyclerAdapter> = MutableLiveData()
     private val mutableOnStateClick: SingleLineEvent<ChangeTaskData> = SingleLineEvent()
     private val mutableOnAddTask: SingleLineEvent<Any> = SingleLineEvent()
@@ -46,11 +46,11 @@ class TasksViewModel(private val db: AppDatabase, private val type: TaskType, ow
         recyclerAdapter.updateTask(task, position)
     }
 
-    fun onClickAddTask() {
+    fun addTask() {
         mutableOnAddTask.call()
     }
 
-    fun onClickFindTasksByName(view: View) {
+    fun filterTasksByName(view: View) {
         val name = view.findViewById<EditText>(R.id.task_name_find).text.toString()
 
         val tasks: MutableList<Task> = if(name.isEmpty()) {
@@ -65,7 +65,7 @@ class TasksViewModel(private val db: AppDatabase, private val type: TaskType, ow
         recyclerAdapter.updateListTasks(tasks)
     }
 
-    fun onClickSortByTop() {
+    fun sortTasksByTop() {
         val tasks = tasksList.sortedBy {
             try {
                 it.countExecutions.toInt()
@@ -78,7 +78,7 @@ class TasksViewModel(private val db: AppDatabase, private val type: TaskType, ow
         recyclerAdapter.updateListTasks(tasks)
     }
 
-    fun onClickSortByBottom() {
+    fun sortTasksByBottom() {
         val tasks = tasksList.sortedByDescending {
             try {
                 it.countExecutions.toInt()

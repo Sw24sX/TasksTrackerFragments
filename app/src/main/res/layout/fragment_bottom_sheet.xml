@@ -55,17 +55,6 @@
             android:layout_marginTop="10dp"
             android:hint="@string/name_task"
             android:layout_weight="0.75"/>
-
-        <Button
-            android:id="@+id/find_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:text="@string/find"
-            android:textSize="10sp"
-            tools:ignore="SmallSp"/>
     </LinearLayout>
 
 </LinearLayout>

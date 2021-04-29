@@ -3,8 +3,9 @@ package com.example.taskstrackerfragments.ui.home.taskfragments
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
+import android.widget.EditText
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.taskstrackerfragments.R
 
@@ -25,9 +26,9 @@ class BottomSheetFragment: Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_bottom_sheet, container, false)
-        view.findViewById<Button>(R.id.find_name).setOnClickListener { viewModel.onClickFindTasksByName(view) }
-        view.findViewById<Button>(R.id.sort_top).setOnClickListener { viewModel.onClickSortByTop() }
-        view.findViewById<Button>(R.id.sort_bottom).setOnClickListener { viewModel.onClickSortByBottom() }
+        view.findViewById<EditText>(R.id.task_name_find).addTextChangedListener { viewModel.filterTasksByName(view) }
+        view.findViewById<Button>(R.id.sort_top).setOnClickListener { viewModel.sortTasksByTop() }
+        view.findViewById<Button>(R.id.sort_bottom).setOnClickListener { viewModel.sortTasksByBottom() }
         return view
     }
 }

@@ -83,7 +83,7 @@ class TasksFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_tasks, container, false)
-        view.findViewById<FloatingActionButton>(R.id.floating_action_button).setOnClickListener { viewModel.onClickAddTask() }
+        view.findViewById<FloatingActionButton>(R.id.floating_action_button).setOnClickListener { viewModel.addTask() }
 
         return view
     }
