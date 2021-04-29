@@ -29,9 +29,8 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         val db = Room.databaseBuilder(
-            activityContext,
-            AppDatabase::class.java, "AppDataBase"
-        )
+                activityContext,
+                AppDatabase::class.java, "AppDataBase")
             .allowMainThreadQueries()
             .fallbackToDestructiveMigration()
             .build()

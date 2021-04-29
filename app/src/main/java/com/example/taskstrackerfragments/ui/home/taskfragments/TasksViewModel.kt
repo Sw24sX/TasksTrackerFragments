@@ -15,7 +15,6 @@ class TasksViewModel(private val db: AppDatabase, type: TaskType, owner: Lifecyc
     private val mutableOnStateClick: SingleLineEvent<ChangeTaskData> = SingleLineEvent()
     private val mutableOnAddTask: SingleLineEvent<Any> = SingleLineEvent()
     private val recyclerAdapter: RecyclerAdapter = RecyclerAdapter(mutableListOf(), this)
-    private var countTasks: Int = 0
     private var tasksList: MutableList<Task> = mutableListOf()
 
     val onStateClick: LiveData<ChangeTaskData> = mutableOnStateClick
@@ -24,9 +23,6 @@ class TasksViewModel(private val db: AppDatabase, type: TaskType, owner: Lifecyc
 
 
     init {
-        db.taskDao().getCountTasksByType(type.toString()).observe(owner, {
-            countTasks = it
-        })
         db.taskDao().getTasksByType(type.toString()).observe(owner, {
             recyclerAdapter.updateListTasks(it)
             tasksList = it
