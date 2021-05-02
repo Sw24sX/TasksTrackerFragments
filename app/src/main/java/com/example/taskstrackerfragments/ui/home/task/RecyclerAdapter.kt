@@ -1,13 +1,16 @@
 package com.example.taskstrackerfragments.ui.home.task
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstrackerfragments.R
 import com.example.taskstrackerfragments.ui.home.task.datatask.Task
 import java.lang.NumberFormatException
 
-class RecyclerAdapter(private var tasks: MutableList<Task>, private val onClickListener: OnTaskClickListener) : RecyclerView.Adapter<ViewHolder>() {
+class RecyclerAdapter(private var tasks: MutableList<Task>,
+                      private val onClickListener: OnTaskClickListener,
+                      private val onLongClickListener: OnTaskLongClickListener) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_item, parent, false)
@@ -23,6 +26,9 @@ class RecyclerAdapter(private var tasks: MutableList<Task>, private val onClickL
         holder.itemView.setOnClickListener {
             onClickListener.onStateClick(tasks[position], position)
         }
+        holder.itemView.setOnLongClickListener {
+            onLongClickListener.onStateLongClick(tasks[position], position)
+        }
     }
 
     fun updateTask(task: Task, position: Int?) {
@@ -34,6 +40,11 @@ class RecyclerAdapter(private var tasks: MutableList<Task>, private val onClickL
             tasks.add(task)
             notifyItemChanged(tasks.count())
         }
+    }
+
+    fun deleteTask(position: Int) {
+        tasks.removeAt(position)
+        notifyDataSetChanged()
     }
 
     fun updateListTasks(filteredTasks: MutableList<Task>){

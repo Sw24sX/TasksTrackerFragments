@@ -11,19 +11,24 @@ import com.example.taskstrackerfragments.ui.home.task.*
 import com.example.taskstrackerfragments.ui.home.task.datatask.AppDatabase
 import com.example.taskstrackerfragments.ui.home.task.datatask.Task
 import com.example.taskstrackerfragments.ui.home.task.datatask.TaskType
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.lang.NumberFormatException
 
-class TasksViewModel(private val db: AppDatabase, type: TaskType, owner: LifecycleOwner): ViewModel(), OnTaskClickListener, OnPutTaskInRecycler {
+class TasksViewModel(private val db: AppDatabase, type: TaskType, owner: LifecycleOwner):
+        ViewModel(), OnTaskClickListener, OnPutTaskInRecycler, OnTaskLongClickListener {
     private val mutableRecyclerAdapterObserver: MutableLiveData<RecyclerAdapter> = MutableLiveData()
     private val mutableOnStateClick: SingleLineEvent<ChangeTaskData> = SingleLineEvent()
     private val mutableOnAddTask: SingleLineEvent<Any> = SingleLineEvent()
-    private val recyclerAdapter: RecyclerAdapter = RecyclerAdapter(mutableListOf(), this)
-    private var tasksList: MutableList<Task> = mutableListOf()
 
     val onStateClick: LiveData<ChangeTaskData> = mutableOnStateClick
     val recyclerAdapterObserver: LiveData<RecyclerAdapter> = mutableRecyclerAdapterObserver
     val onAddTask: LiveData<Any> = mutableOnAddTask
 
+    private var tasksList: MutableList<Task> = mutableListOf()
+    private val recyclerAdapter: RecyclerAdapter = RecyclerAdapter(mutableListOf(),
+            this, this)
 
     init {
         db.taskDao().getTasksByType(type.toString()).observe(owner, {
@@ -37,11 +42,21 @@ class TasksViewModel(private val db: AppDatabase, type: TaskType, owner: Lifecyc
         mutableOnStateClick.value = ChangeTaskData(task, position)
     }
 
+    override fun onStateLongClick(task: Task, position: Int): Boolean {
+        GlobalScope.launch(Dispatchers.Default) {
+            db.taskDao().delete(task)
+        }
+        recyclerAdapter.deleteTask(position)
+        return true
+    }
+
     override fun putTaskInRecycler(task: Task, position: Int?) {
-        if (task.id != 0)
-            db.taskDao().update(task)
-        else
-            db.taskDao().insert(task)
+        GlobalScope.launch(Dispatchers.Default) {
+            if (task.id != 0)
+                db.taskDao().update(task)
+            else
+                db.taskDao().insert(task)
+        }
         recyclerAdapter.updateTask(task, position)
     }
 
@@ -89,4 +104,6 @@ class TasksViewModel(private val db: AppDatabase, type: TaskType, owner: Lifecyc
 
         recyclerAdapter.updateListTasks(tasks)
     }
+
+
 }
