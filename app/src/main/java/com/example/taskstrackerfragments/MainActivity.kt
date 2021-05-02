@@ -43,12 +43,13 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    private lateinit var returnTask: OnPutTaskInRecycler
+    private var returnTask: OnPutTaskInRecycler? = null
     private var position: Int? = null
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putSerializable(RETURN_TASK, returnTask)
+        if (returnTask != null)
+            outState.putSerializable(RETURN_TASK, returnTask)
         if(position != null)
             outState.putInt(POSITION, position!!)
     }
@@ -56,7 +57,8 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         if (savedInstanceState.containsKey(POSITION)) position = savedInstanceState.getInt(POSITION)
-        returnTask = savedInstanceState.getSerializable(RETURN_TASK) as OnPutTaskInRecycler
+        if(savedInstanceState.containsKey(RETURN_TASK))
+            returnTask = savedInstanceState.getSerializable(RETURN_TASK) as OnPutTaskInRecycler
     }
 
     override fun createTask(fragment: OnPutTaskInRecycler, typeTask: TaskType) {
@@ -72,7 +74,7 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
             .remove(fragment)
             .show(supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!)
             .commit()
-        returnTask.putTaskInRecycler(task, position)
+        returnTask?.putTaskInRecycler(task, position)
         position = null
     }
 

@@ -10,6 +10,7 @@ import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
 import com.example.taskstrackerfragments.R
 import com.example.taskstrackerfragments.ui.home.task.datatask.AppDatabase
+import com.example.taskstrackerfragments.ui.home.task.datatask.DataBase
 import com.example.taskstrackerfragments.ui.home.viewpager.PageViewAdapter
 import com.google.android.material.tabs.TabLayout
 
@@ -28,12 +29,7 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        val db = Room.databaseBuilder(
-                activityContext,
-                AppDatabase::class.java, "AppDataBase")
-            .allowMainThreadQueries()
-            .fallbackToDestructiveMigration()
-            .build()
+        val db = DataBase().getDB(activityContext)
 
         val pageViewAdapter = PageViewAdapter(childFragmentManager, db)
         val viewPager: ViewPager = view.findViewById(R.id.view_pager)
