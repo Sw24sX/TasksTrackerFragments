@@ -18,6 +18,7 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         description.text = task.description
         countExecution.text = task.countExecutions
         period.text = task.period
-        priority.text = task.priority
+        val test = listOf("Нет", "Высокий", "Средний", "Низкий")
+        priority.text = test[task.priorityPosition!!.toInt()]
     }
 }

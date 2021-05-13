@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.example.taskstrackerfragments.ui.home.task.datatask.AppDatabase
 import com.example.taskstrackerfragments.ui.home.task.datatask.TaskType
 import com.example.taskstrackerfragments.ui.home.taskfragments.TasksFragment
+import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.DataBaseHost
 import java.io.Serializable
 
 class PageViewAdapter(fm: FragmentManager, private val db: AppDatabase) : FragmentPagerAdapter(fm), Serializable {

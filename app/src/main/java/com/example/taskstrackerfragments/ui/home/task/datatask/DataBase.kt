@@ -10,7 +10,7 @@ class DataBase {
         instance = Room.databaseBuilder(
                 context,
                 AppDatabase::class.java, "AppDataBase")
-                .allowMainThreadQueries()
+                //.allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
                 .build()
         return instance!!

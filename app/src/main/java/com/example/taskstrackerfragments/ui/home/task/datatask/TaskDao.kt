@@ -15,6 +15,9 @@ interface TaskDao: Serializable {
     @Query("SELECT COUNT(*) FROM task WHERE type = :type")
     fun getCountTasksByType(type: String): LiveData<Int>
 
+    @Query("DELETE FROM task")
+    fun clearDB()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(task: Task)
 
