@@ -1,6 +1,6 @@
-package com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel
+package com.example.domain
 
-import com.example.taskstrackerfragments.ui.home.task.datatask.Task
+import com.example.domain.entities.Habit
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*

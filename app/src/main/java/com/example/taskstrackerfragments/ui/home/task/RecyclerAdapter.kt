@@ -1,12 +1,10 @@
 package com.example.taskstrackerfragments.ui.home.task
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstrackerfragments.R
-import com.example.taskstrackerfragments.ui.home.task.datatask.Task
-import java.lang.NumberFormatException
+import com.example.taskstrackerfragments.data.Task
 
 class RecyclerAdapter(private var tasks: MutableList<Task>,
                       private val onClickListener: OnTaskClickListener,

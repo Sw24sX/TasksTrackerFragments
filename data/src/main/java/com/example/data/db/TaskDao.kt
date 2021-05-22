@@ -1,7 +1,7 @@
-package com.example.taskstrackerfragments.ui.home.task.datatask
+package com.example.data.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.room.Dao
 import java.io.Serializable
 
 @Dao

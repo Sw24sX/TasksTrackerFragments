@@ -1,8 +1,6 @@
 package com.example.taskstrackerfragments.ui.home.taskfragments
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,16 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstrackerfragments.OnChangeTask
 import com.example.taskstrackerfragments.OnCreateNewTask
 import com.example.taskstrackerfragments.R
-import com.example.taskstrackerfragments.ui.home.task.datatask.AppDatabase
-import com.example.taskstrackerfragments.ui.home.task.datatask.TaskType
-import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.DataBaseHost
+import com.example.data.db.AppDatabase
+import com.example.taskstrackerfragments.data.TaskType
 import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.TasksViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class TasksFragment: Fragment() {
     companion object {
-        fun newInstance(typeTask: TaskType, db: AppDatabase): TasksFragment {
+        fun newInstance(typeTask: TaskType, db: com.example.data.db.AppDatabase): TasksFragment {
             val args = Bundle()
             args.putSerializable(TYPE_TASK, typeTask)
             args.putSerializable(DB, db)
@@ -39,7 +36,7 @@ class TasksFragment: Fragment() {
     private lateinit var activityContext: Context
     lateinit var viewModel: TasksViewModel
     private lateinit var typeTasks: TaskType
-    private lateinit var db: AppDatabase
+    private lateinit var db: com.example.data.db.AppDatabase
 
 
     override fun onAttach(context: Context) {
@@ -48,7 +45,7 @@ class TasksFragment: Fragment() {
 
         arguments?.let {
             typeTasks = it.getSerializable(TYPE_TASK) as TaskType
-            db = it.getSerializable(DB) as AppDatabase
+            db = it.getSerializable(DB) as com.example.data.db.AppDatabase
         }
 
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {

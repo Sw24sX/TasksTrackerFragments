@@ -1,4 +1,4 @@
-package com.example.taskstrackerfragments.ui.about
+package com.example.taskstrackerfragments.presenatation.about
 
 import android.os.Bundle
 import android.view.LayoutInflater

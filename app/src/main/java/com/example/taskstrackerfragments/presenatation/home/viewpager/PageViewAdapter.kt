@@ -1,15 +1,14 @@
-package com.example.taskstrackerfragments.ui.home.viewpager
+package com.example.taskstrackerfragments.presenatation.home.viewpager
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.taskstrackerfragments.ui.home.task.datatask.AppDatabase
-import com.example.taskstrackerfragments.ui.home.task.datatask.TaskType
+import com.example.data.db.AppDatabase
+import com.example.taskstrackerfragments.data.TaskType
 import com.example.taskstrackerfragments.ui.home.taskfragments.TasksFragment
-import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.DataBaseHost
 import java.io.Serializable
 
-class PageViewAdapter(fm: FragmentManager, private val db: AppDatabase) : FragmentPagerAdapter(fm), Serializable {
+class PageViewAdapter(fm: FragmentManager, private val db: com.example.data.db.AppDatabase) : FragmentPagerAdapter(fm), Serializable {
     override fun getCount(): Int = 2
 
     override fun getItem(position: Int): Fragment{

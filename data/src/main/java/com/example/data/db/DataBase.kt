@@ -1,7 +1,5 @@
-package com.example.taskstrackerfragments.ui.home.task.datatask
+package com.example.data.db
 
-import android.content.Context
-import androidx.room.Room
 
 class DataBase {
     fun getDB(context: Context): AppDatabase {

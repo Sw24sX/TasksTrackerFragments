@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstrackerfragments.R
-import com.example.taskstrackerfragments.ui.home.task.datatask.Task
+import com.example.taskstrackerfragments.data.Task
 
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val nameText: TextView = itemView.findViewById(R.id.name)

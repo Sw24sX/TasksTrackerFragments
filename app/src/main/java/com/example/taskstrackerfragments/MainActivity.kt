@@ -11,11 +11,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.room.Room
 import com.example.taskstrackerfragments.ui.home.task.OnPutTaskInRecycler
-import com.example.taskstrackerfragments.ui.home.task.datatask.AppDatabase
-import com.example.taskstrackerfragments.ui.home.task.datatask.Task
-import com.example.taskstrackerfragments.ui.home.task.datatask.TaskType
+import com.example.taskstrackerfragments.data.Task
+import com.example.taskstrackerfragments.data.TaskType
 import com.example.taskstrackerfragments.ui.home.taskfragments.ChangeTaskFragment
 
 class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveTask {

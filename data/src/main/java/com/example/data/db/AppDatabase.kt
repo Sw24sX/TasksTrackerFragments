@@ -1,7 +1,6 @@
-package com.example.taskstrackerfragments.ui.home.task.datatask
+package com.example.data.db
 
 import androidx.room.Database
-import androidx.room.RoomDatabase
 import java.io.Serializable
 
 @Database(entities = [Task::class], version = 6)

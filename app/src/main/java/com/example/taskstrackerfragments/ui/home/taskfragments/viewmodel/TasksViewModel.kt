@@ -6,23 +6,20 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.domain.DataBaseHost
 import com.example.taskstrackerfragments.R
 import com.example.taskstrackerfragments.ui.home.task.*
-import com.example.taskstrackerfragments.ui.home.task.datatask.AppDatabase
-import com.example.taskstrackerfragments.ui.home.task.datatask.Task
-import com.example.taskstrackerfragments.ui.home.task.datatask.TaskType
+import com.example.data.db.AppDatabase
+import com.example.taskstrackerfragments.data.Task
+import com.example.taskstrackerfragments.data.TaskType
 import com.example.taskstrackerfragments.ui.home.taskfragments.ChangeTaskData
 import com.example.taskstrackerfragments.ui.home.taskfragments.SingleLineEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.FormBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
 import java.lang.NumberFormatException
 
-class TasksViewModel(private val db: AppDatabase, type: TaskType,
+class TasksViewModel(private val db: com.example.data.db.AppDatabase, type: TaskType,
                      owner: LifecycleOwner):
         ViewModel(), OnTaskClickListener, OnPutTaskInRecycler, OnTaskLongClickListener {
     private val mutableRecyclerAdapterObserver: MutableLiveData<RecyclerAdapter> = MutableLiveData()
@@ -61,8 +58,8 @@ class TasksViewModel(private val db: AppDatabase, type: TaskType,
 
     override fun putTaskInRecycler(task: Task, position: Int?) {
         GlobalScope.launch(Dispatchers.Default) {
-            val taskUid = DataBaseHost.putTask(task)
-
+            val habit = DataBaseHost.putTask(Task.toHabit(task))
+            val taskUid = Task.toTask(habit)
             if (taskUid.id != 0)
                 db.taskDao().update(taskUid)
             else

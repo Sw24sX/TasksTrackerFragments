@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.taskstrackerfragments.OnSaveTask
 import com.example.taskstrackerfragments.R
-import com.example.taskstrackerfragments.ui.home.task.datatask.Task
-import com.example.taskstrackerfragments.ui.home.task.datatask.TaskType
+import com.example.taskstrackerfragments.data.Task
+import com.example.taskstrackerfragments.data.TaskType
 
 class ChangeTaskFragment: Fragment() {
     private lateinit var activityContext: Context
