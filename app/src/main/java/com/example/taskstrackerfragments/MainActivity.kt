@@ -14,21 +14,23 @@ import androidx.fragment.app.Fragment
 import com.example.taskstrackerfragments.ui.home.task.OnPutTaskInRecycler
 import com.example.data.datatask.Task
 import com.example.data.fabrics.UseCases
+import com.example.taskstrackerfragments.dagger.HabitComponent
+import com.example.taskstrackerfragments.dagger.HabitsModule
 import com.example.taskstrackerfragments.ui.home.taskfragments.ChangeTaskFragment
 
 class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveTask {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    lateinit var useCases: UseCases
+    lateinit var component: HabitComponent
+        private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        useCases = UseCases(this)
-        val a = useCases.getHabits
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)

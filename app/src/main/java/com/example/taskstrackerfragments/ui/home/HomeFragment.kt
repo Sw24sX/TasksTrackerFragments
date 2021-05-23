@@ -14,6 +14,8 @@ import com.example.taskstrackerfragments.R
 import com.example.taskstrackerfragments.ui.home.homeviewmodel.HomeViewModel
 import com.example.data.datatask.AppDatabase
 import com.example.data.datatask.DataBase
+import com.example.data.fabrics.UseCases
+import com.example.taskstrackerfragments.MainActivity
 import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.TasksViewModel
 import com.example.taskstrackerfragments.ui.home.viewpager.PageViewAdapter
 import com.google.android.material.tabs.TabLayout
@@ -36,9 +38,10 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         val db = com.example.data.datatask.DataBase().getDB(activityContext)
+        val useCases = UseCases(activityContext)
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return HomeViewModel(db) as T
+                return HomeViewModel(useCases) as T
             }
         }).get(HomeViewModel::class.java)
 
