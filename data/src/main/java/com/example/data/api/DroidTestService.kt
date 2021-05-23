@@ -1,6 +1,6 @@
 package com.example.data.api
 
-import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.Habit
+import com.example.data.entities.HabitRemote
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -8,11 +8,11 @@ import retrofit2.http.*
 interface DroidTestService {
     @Headers("Authorization:$TOKEN")
     @GET("habit")
-    fun habits(): Call<Array<Habit>>
+    fun habits(): Call<Array<HabitRemote>>
 
     @Headers ("Authorization:$TOKEN")
     @PUT("habit")
-    fun putHabit(@Body habit: Habit): Call<Habit>
+    fun putHabit(@Body habitRemote: HabitRemote): Call<HabitRemote>
 
     @Multipart
     @Headers("Authorization:$TOKEN")
