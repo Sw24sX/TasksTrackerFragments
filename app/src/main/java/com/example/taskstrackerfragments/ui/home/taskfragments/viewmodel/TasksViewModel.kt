@@ -16,10 +16,6 @@ import com.example.taskstrackerfragments.ui.home.taskfragments.SingleLineEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.FormBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
 import java.lang.NumberFormatException
 
 class TasksViewModel(private val db: com.example.data.datatask.AppDatabase, type: com.example.data.datatask.TaskType,
@@ -63,9 +59,9 @@ class TasksViewModel(private val db: com.example.data.datatask.AppDatabase, type
         GlobalScope.launch(Dispatchers.Default) {
             val taskUid = DataBaseHost.putTask(task)
 
-            if (taskUid.id != 0)
+            if (taskUid.id != 0) {
                 db.taskDao().update(taskUid)
-            else
+            } else
                 db.taskDao().insert(taskUid)
         }
         recyclerAdapter.updateTask(task, position)
