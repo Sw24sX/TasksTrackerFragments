@@ -7,29 +7,29 @@ import com.example.domain.repositories.HabitRepository
 import kotlinx.coroutines.flow.Flow
 
 class HabitRepositoryImpl(
-//    private val habitsLocalRepository: HabitsLocalRepository,
+    private val habitsLocalRepository: HabitsLocalRepository,
     private val habitsRemoteRepository: HabitsRemoteRepository,
 ): HabitRepository {
-    override suspend fun getHabits(): List<Habit> {
+    override suspend fun getHabits(): Flow<List<Habit>> {
         val habits = habitsRemoteRepository.getHabits()
-//        return habitsLocalRepository.rewriteHabits(habits)
-        return habits
+        return habitsLocalRepository.rewriteHabits(habits)
+//        return habits
     }
 
     override suspend fun pushHabit(habit: Habit): Habit {
         val habit = habitsRemoteRepository.pushHabit(habit)
-//        return habitsLocalRepository.pushHabit(habit)
-        return habit
+        return habitsLocalRepository.pushHabit(habit)
+//        return habit
     }
 
     override suspend fun updateHabit(habit: Habit): Habit {
         val habit = habitsRemoteRepository.updateHabit(habit)
-//        return habitsLocalRepository.updateHabit(habit)
-        return habit
+        return habitsLocalRepository.updateHabit(habit)
+//        return habit
     }
 
     override suspend fun deleteHabit(habit: Habit) {
-//        habitsLocalRepository.deleteHabit(habit)
+        habitsLocalRepository.deleteHabit(habit)
         habitsRemoteRepository.deleteHabit(habit)
     }
 }

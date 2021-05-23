@@ -41,9 +41,9 @@ class TasksViewModel(private val app: MainActivity, type: com.example.data.datat
 //        })
         GlobalScope.launch(Dispatchers.IO) {
             val habits = app.applicationComponent.getGetHabitsUseCase().getHabits()
-            val tasks = habits.map { mapper.toTask(it) }.toMutableList()
+//            val tasks = habits.map { mapper.toTask(it) }.toMutableList()
 //            recyclerAdapter.updateListTasks(tasks)
-            tasksList = tasks
+//            tasksList = tasks
             GlobalScope.launch(Dispatchers.Main) {
                 recyclerAdapter.updateListTasks(tasksList)
             }

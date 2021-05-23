@@ -1,6 +1,5 @@
 package com.example.taskstrackerfragments.dagger
 
-import android.app.Application
 import android.content.Context
 import com.example.data.api.DroidTestService
 import com.example.data.datatask.DataBase
@@ -22,7 +21,7 @@ import dagger.Provides
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [ContextModule::class])
 class HabitsModule() {
 
     @Provides
@@ -41,25 +40,25 @@ class HabitsModule() {
     }
 
     @Provides
-    fun provideRepository(remoteRepository: HabitsRemoteRepository): HabitRepository {
-        return HabitRepositoryImpl(remoteRepository)
+    fun provideRepository(localRepository: HabitsLocalRepository, remoteRepository: HabitsRemoteRepository): HabitRepository {
+        return HabitRepositoryImpl(localRepository, remoteRepository)
     }
 
-//    @Provides
-//    fun provideHabitsLocalRepository(taskDao: TaskDao): HabitsLocalRepository {
-//        return HabitsLocalRepositoryImpl(taskDao, HabitLocalMapper())
-//    }
+    @Provides
+    fun provideHabitsLocalRepository(taskDao: TaskDao): HabitsLocalRepository {
+        return HabitsLocalRepositoryImpl(taskDao, HabitLocalMapper())
+    }
 
 //    @Provides
 //    fun provideContext(application: Application): Context {
 //        return application.applicationContext
 //    }
 
-//    @Provides
-//    @Singleton
-//    fun provideTaskDao(context: Context): TaskDao {
-//        return DataBase().getDB(context).taskDao()
-//    }
+    @Provides
+    @Singleton
+    fun provideTaskDao(context: Context): TaskDao {
+        return DataBase().getDB(context).taskDao()
+    }
 
     @Provides
     fun provideHabitsRemoteRepository(service: DroidTestService): HabitsRemoteRepository {
