@@ -2,10 +2,7 @@ package com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel
 
 import android.view.View
 import android.widget.EditText
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.taskstrackerfragments.R
 import com.example.taskstrackerfragments.ui.home.task.*
 import com.example.data.datatask.Task
@@ -34,7 +31,7 @@ class TasksViewModel(private val db: com.example.data.datatask.AppDatabase, type
     private val mapper = HabitLocalMapper()
 
     init {
-        db.taskDao().getTasksByType(type.toString()).observe(owner, {
+        db.taskDao().getTasksByType(type.toString()).asLiveData().observe(owner, {
             var result = it.map { item -> mapper.toTask(item) }.toMutableList()
             recyclerAdapter.updateListTasks(result)
             tasksList = result
