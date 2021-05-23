@@ -1,6 +1,5 @@
-package com.example.data.datatask
+package com.example.data.api
 
-import com.example.data.datatask.Task
 import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.Habit
 import okhttp3.RequestBody
 import retrofit2.Call

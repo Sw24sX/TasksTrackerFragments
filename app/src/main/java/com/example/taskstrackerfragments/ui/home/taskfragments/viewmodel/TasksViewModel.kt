@@ -8,9 +8,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.taskstrackerfragments.R
 import com.example.taskstrackerfragments.ui.home.task.*
-import com.example.data.datatask.AppDatabase
 import com.example.data.datatask.Task
-import com.example.data.datatask.TaskType
+import com.example.taskstrackerfragments.mappers.HabitLocalMapper
 import com.example.taskstrackerfragments.ui.home.taskfragments.ChangeTaskData
 import com.example.taskstrackerfragments.ui.home.taskfragments.SingleLineEvent
 import kotlinx.coroutines.Dispatchers
@@ -29,40 +28,42 @@ class TasksViewModel(private val db: com.example.data.datatask.AppDatabase, type
     val recyclerAdapterObserver: LiveData<RecyclerAdapter> = mutableRecyclerAdapterObserver
     val onAddTask: LiveData<Any> = mutableOnAddTask
 
-    private var tasksList: MutableList<com.example.data.datatask.Task> = mutableListOf()
+    private var tasksList: MutableList<Task> = mutableListOf()
     private val recyclerAdapter: RecyclerAdapter = RecyclerAdapter(mutableListOf(),
             this, this)
+    private val mapper = HabitLocalMapper()
 
     init {
         db.taskDao().getTasksByType(type.toString()).observe(owner, {
-            recyclerAdapter.updateListTasks(it)
-            tasksList = it
+            var result = it.map { item -> mapper.toTask(item) }.toMutableList()
+            recyclerAdapter.updateListTasks(result)
+            tasksList = result
         })
         mutableRecyclerAdapterObserver.value = recyclerAdapter
 
     }
 
-    override fun onStateClick(task: com.example.data.datatask.Task, position: Int) {
+    override fun onStateClick(task: Task, position: Int) {
         mutableOnStateClick.value = ChangeTaskData(task, position)
     }
 
-    override fun onStateLongClick(task: com.example.data.datatask.Task, position: Int): Boolean {
+    override fun onStateLongClick(task: Task, position: Int): Boolean {
         GlobalScope.launch(Dispatchers.IO) {
             //deleteTask(task)
-            db.taskDao().delete(task)
+            db.taskDao().delete(mapper.toHabitLocal(task))
         }
         recyclerAdapter.deleteTask(position)
         return true
     }
 
-    override fun putTaskInRecycler(task: com.example.data.datatask.Task, position: Int?) {
+    override fun putTaskInRecycler(task: Task, position: Int?) {
         GlobalScope.launch(Dispatchers.Default) {
             val taskUid = DataBaseHost.putTask(task)
 
             if (taskUid.id != 0) {
-                db.taskDao().update(taskUid)
+                db.taskDao().update(mapper.toHabitLocal(taskUid))
             } else
-                db.taskDao().insert(taskUid)
+                db.taskDao().insert(mapper.toHabitLocal(taskUid))
         }
         recyclerAdapter.updateTask(task, position)
     }
@@ -74,7 +75,7 @@ class TasksViewModel(private val db: com.example.data.datatask.AppDatabase, type
     fun filterTasksByName(view: View) {
         val name = view.findViewById<EditText>(R.id.task_name_find).text.toString()
 
-        val tasks: MutableList<com.example.data.datatask.Task> = if(name.isEmpty()) {
+        val tasks: MutableList<Task> = if(name.isEmpty()) {
             tasksList
         } else {
             val filterPattern = name.toLowerCase().trim()

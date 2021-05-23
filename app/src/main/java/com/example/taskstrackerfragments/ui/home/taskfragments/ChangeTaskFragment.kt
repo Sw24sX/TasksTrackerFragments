@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.taskstrackerfragments.OnSaveTask
 import com.example.taskstrackerfragments.R
 import com.example.data.datatask.Task
-import com.example.data.datatask.TaskType
 
 class ChangeTaskFragment: Fragment() {
     private lateinit var activityContext: Context
@@ -28,14 +27,14 @@ class ChangeTaskFragment: Fragment() {
         activityContext = context
     }
 
-    private var task: com.example.data.datatask.Task? = null
+    private var task: Task? = null
     private lateinit var typeTask: com.example.data.datatask.TaskType
     private lateinit var viewModel: ChangeTaskViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            task = it.getSerializable(TASK) as com.example.data.datatask.Task?
+            task = it.getSerializable(TASK) as Task?
             typeTask = it.getSerializable(TASK_TYPE) as com.example.data.datatask.TaskType
         }
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
@@ -60,7 +59,7 @@ class ChangeTaskFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (task == null) task = com.example.data.datatask.Task.default(typeTask)
+        if (task == null) task = Task.default(typeTask)
         val currentTask = task!!
 
         initElements(view)
@@ -87,9 +86,9 @@ class ChangeTaskFragment: Fragment() {
         priority = view.findViewById(R.id.selectPriority)
     }
 
-    private fun grabUserInput(): com.example.data.datatask.Task {
+    private fun grabUserInput(): Task {
         val prioritySelectedItem = priority.selectedItemPosition
-        val result = if (task != null) task!! else com.example.data.datatask.Task.default(typeTask)
+        val result = if (task != null) task!! else Task.default(typeTask)
         result.name = name.text.toString()
         result.description =description.text.toString()
         result.countExecutions = countExecution.text.toString()
@@ -110,7 +109,7 @@ class ChangeTaskFragment: Fragment() {
             return result
         }
 
-        fun newInstance(task: com.example.data.datatask.Task, type: com.example.data.datatask.TaskType) : ChangeTaskFragment {
+        fun newInstance(task: Task, type: com.example.data.datatask.TaskType) : ChangeTaskFragment {
             val args = Bundle()
             args.putSerializable(TASK, task)
             args.putSerializable(TASK_TYPE, type)

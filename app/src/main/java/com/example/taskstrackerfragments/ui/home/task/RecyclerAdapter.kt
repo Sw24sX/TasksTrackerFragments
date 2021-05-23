@@ -1,14 +1,12 @@
 package com.example.taskstrackerfragments.ui.home.task
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstrackerfragments.R
 import com.example.data.datatask.Task
-import java.lang.NumberFormatException
 
-class RecyclerAdapter(private var tasks: MutableList<com.example.data.datatask.Task>,
+class RecyclerAdapter(private var tasks: MutableList<Task>,
                       private val onClickListener: OnTaskClickListener,
                       private val onLongClickListener: OnTaskLongClickListener) : RecyclerView.Adapter<ViewHolder>() {
 
@@ -31,7 +29,7 @@ class RecyclerAdapter(private var tasks: MutableList<com.example.data.datatask.T
         }
     }
 
-    fun updateTask(task: com.example.data.datatask.Task, position: Int?) {
+    fun updateTask(task: Task, position: Int?) {
         if (position != null && position >= 0 && position < tasks.count()) {
             tasks[position] = task
             notifyItemChanged(position)
@@ -47,7 +45,7 @@ class RecyclerAdapter(private var tasks: MutableList<com.example.data.datatask.T
         notifyDataSetChanged()
     }
 
-    fun updateListTasks(filteredTasks: MutableList<com.example.data.datatask.Task>){
+    fun updateListTasks(filteredTasks: MutableList<Task>){
         tasks = filteredTasks
         notifyDataSetChanged()
     }

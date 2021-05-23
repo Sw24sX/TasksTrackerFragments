@@ -1,8 +1,6 @@
 package com.example.taskstrackerfragments.ui.home.taskfragments
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstrackerfragments.OnChangeTask
 import com.example.taskstrackerfragments.OnCreateNewTask
 import com.example.taskstrackerfragments.R
-import com.example.data.datatask.AppDatabase
-import com.example.data.datatask.TaskType
-import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.DataBaseHost
 import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.TasksViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
