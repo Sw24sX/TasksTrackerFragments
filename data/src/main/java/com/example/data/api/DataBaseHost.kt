@@ -38,5 +38,12 @@ class DataBaseHost: Serializable {
             val habits = service.habits().execute().body() ?: return listOf()
             return habits.map { x -> HabitRemote.toTask(x) }.toList()
         }
+
+        fun buildRetrofit(): Retrofit {
+            return Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        }
     }
 }

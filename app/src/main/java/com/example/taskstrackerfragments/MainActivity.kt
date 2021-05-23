@@ -13,15 +13,19 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.taskstrackerfragments.ui.home.task.OnPutTaskInRecycler
 import com.example.data.datatask.Task
+import com.example.data.fabrics.UseCases
 import com.example.taskstrackerfragments.ui.home.taskfragments.ChangeTaskFragment
 
 class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveTask {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    lateinit var useCases: UseCases
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        useCases = UseCases(this)
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
