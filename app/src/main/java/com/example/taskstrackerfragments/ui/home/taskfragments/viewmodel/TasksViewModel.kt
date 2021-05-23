@@ -8,9 +8,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.taskstrackerfragments.R
 import com.example.taskstrackerfragments.ui.home.task.*
-import com.example.taskstrackerfragments.ui.home.task.datatask.AppDatabase
-import com.example.taskstrackerfragments.ui.home.task.datatask.Task
-import com.example.taskstrackerfragments.ui.home.task.datatask.TaskType
+import com.example.data.datatask.AppDatabase
+import com.example.data.datatask.Task
+import com.example.data.datatask.TaskType
 import com.example.taskstrackerfragments.ui.home.taskfragments.ChangeTaskData
 import com.example.taskstrackerfragments.ui.home.taskfragments.SingleLineEvent
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +22,7 @@ import okhttp3.Request
 import okhttp3.RequestBody
 import java.lang.NumberFormatException
 
-class TasksViewModel(private val db: AppDatabase, type: TaskType,
+class TasksViewModel(private val db: com.example.data.datatask.AppDatabase, type: com.example.data.datatask.TaskType,
                      owner: LifecycleOwner):
         ViewModel(), OnTaskClickListener, OnPutTaskInRecycler, OnTaskLongClickListener {
     private val mutableRecyclerAdapterObserver: MutableLiveData<RecyclerAdapter> = MutableLiveData()
@@ -33,7 +33,7 @@ class TasksViewModel(private val db: AppDatabase, type: TaskType,
     val recyclerAdapterObserver: LiveData<RecyclerAdapter> = mutableRecyclerAdapterObserver
     val onAddTask: LiveData<Any> = mutableOnAddTask
 
-    private var tasksList: MutableList<Task> = mutableListOf()
+    private var tasksList: MutableList<com.example.data.datatask.Task> = mutableListOf()
     private val recyclerAdapter: RecyclerAdapter = RecyclerAdapter(mutableListOf(),
             this, this)
 
@@ -46,11 +46,11 @@ class TasksViewModel(private val db: AppDatabase, type: TaskType,
 
     }
 
-    override fun onStateClick(task: Task, position: Int) {
+    override fun onStateClick(task: com.example.data.datatask.Task, position: Int) {
         mutableOnStateClick.value = ChangeTaskData(task, position)
     }
 
-    override fun onStateLongClick(task: Task, position: Int): Boolean {
+    override fun onStateLongClick(task: com.example.data.datatask.Task, position: Int): Boolean {
         GlobalScope.launch(Dispatchers.IO) {
             //deleteTask(task)
             db.taskDao().delete(task)
@@ -59,7 +59,7 @@ class TasksViewModel(private val db: AppDatabase, type: TaskType,
         return true
     }
 
-    override fun putTaskInRecycler(task: Task, position: Int?) {
+    override fun putTaskInRecycler(task: com.example.data.datatask.Task, position: Int?) {
         GlobalScope.launch(Dispatchers.Default) {
             val taskUid = DataBaseHost.putTask(task)
 
@@ -78,7 +78,7 @@ class TasksViewModel(private val db: AppDatabase, type: TaskType,
     fun filterTasksByName(view: View) {
         val name = view.findViewById<EditText>(R.id.task_name_find).text.toString()
 
-        val tasks: MutableList<Task> = if(name.isEmpty()) {
+        val tasks: MutableList<com.example.data.datatask.Task> = if(name.isEmpty()) {
             tasksList
         } else {
             val filterPattern = name.toLowerCase().trim()

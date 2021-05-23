@@ -1,4 +1,4 @@
-package com.example.taskstrackerfragments.ui.home.task.datatask
+package com.example.data.datatask
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

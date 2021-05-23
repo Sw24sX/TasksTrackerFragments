@@ -12,8 +12,8 @@ import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
 import com.example.taskstrackerfragments.R
 import com.example.taskstrackerfragments.ui.home.homeviewmodel.HomeViewModel
-import com.example.taskstrackerfragments.ui.home.task.datatask.AppDatabase
-import com.example.taskstrackerfragments.ui.home.task.datatask.DataBase
+import com.example.data.datatask.AppDatabase
+import com.example.data.datatask.DataBase
 import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.TasksViewModel
 import com.example.taskstrackerfragments.ui.home.viewpager.PageViewAdapter
 import com.google.android.material.tabs.TabLayout
@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        val db = DataBase().getDB(activityContext)
+        val db = com.example.data.datatask.DataBase().getDB(activityContext)
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return HomeViewModel(db) as T

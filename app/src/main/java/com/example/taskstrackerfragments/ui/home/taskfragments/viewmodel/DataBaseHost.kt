@@ -1,6 +1,6 @@
 package com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel
 
-import com.example.taskstrackerfragments.ui.home.task.datatask.Task
+import com.example.data.datatask.Task
 import com.google.gson.annotations.SerializedName
 import java.io.IOException
 import java.io.Serializable
@@ -11,7 +11,7 @@ class DataBaseHost: Serializable {
     companion object {
         private const val BASE_URL: String = "https://droid-test-server.doubletapp.ru/api/"
 
-        fun putTask(task: Task): Task {
+        fun putTask(task: com.example.data.datatask.Task): com.example.data.datatask.Task {
             val retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
@@ -27,7 +27,7 @@ class DataBaseHost: Serializable {
             return task
         }
 
-        fun getTasks(): List<Task> {
+        fun getTasks(): List<com.example.data.datatask.Task> {
             val retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
@@ -50,16 +50,18 @@ data class Habit(
         @SerializedName("uid") val uid: String
 ) {
     companion object {
-        fun toTask(habit: Habit): Task {
+        fun toTask(habit: Habit): com.example.data.datatask.Task {
             val type = if(habit.type == 0) "GOOD" else "BAD"
             val name = if(habit.name == " ") "" else habit.name
             val description = if(habit.description == " ") "" else habit.description
-            return Task(name, description, habit.countExecute.toString(),
-                    habit.period.toString(), habit.priority.toString(), type,
-                    habit.uid, habit.date.toString())
+            return com.example.data.datatask.Task(
+                name, description, habit.countExecute.toString(),
+                habit.period.toString(), habit.priority.toString(), type,
+                habit.uid, habit.date.toString()
+            )
         }
 
-        fun toHabit(task: Task): Habit {
+        fun toHabit(task: com.example.data.datatask.Task): Habit {
             val name: String = if(task.name.isEmpty()) " " else task.name
             val description: String = if(task.description.isEmpty()) " " else task.description
             val priority: Int = getZeroOrValue(task.priorityPosition)

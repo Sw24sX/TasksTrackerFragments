@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstrackerfragments.R
-import com.example.taskstrackerfragments.ui.home.task.datatask.Task
+import com.example.data.datatask.Task
 
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val nameText: TextView = itemView.findViewById(R.id.name)
@@ -13,7 +13,7 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val period: TextView = itemView.findViewById(R.id.period)
     private val priority: TextView = itemView.findViewById(R.id.priority)
 
-    fun bind(task: Task, position: Int) {
+    fun bind(task: com.example.data.datatask.Task, position: Int) {
         nameText.text = task.name
         description.text = task.description
         countExecution.text = task.countExecutions

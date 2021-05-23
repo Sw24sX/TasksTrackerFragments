@@ -1,4 +1,4 @@
-package com.example.taskstrackerfragments.ui.home.task.datatask
+package com.example.data.datatask
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

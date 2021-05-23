@@ -1,4 +1,4 @@
-package com.example.taskstrackerfragments.ui.home.task.datatask
+package com.example.data.datatask
 
 import android.content.Context
 import androidx.room.Room
