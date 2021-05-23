@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
         setContentView(R.layout.activity_main)
 
         useCases = UseCases(this)
-
+        val a = useCases.getHabits
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 

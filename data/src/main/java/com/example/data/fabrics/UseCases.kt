@@ -16,6 +16,7 @@ import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.DataBas
 import kotlinx.coroutines.Dispatchers
 
 class UseCases(context: Context) {
+    val test = 1
     val getHabits: GetHabitsUseCase
     val pushHabit: PushHabitUseCase
     val updateHabit: UpdateHabitUseCase
