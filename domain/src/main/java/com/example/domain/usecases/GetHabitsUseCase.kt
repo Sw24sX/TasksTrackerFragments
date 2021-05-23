@@ -10,7 +10,7 @@ class GetHabitsUseCase(
     private val repository: HabitRepository,
     private val dispatcher: CoroutineDispatcher
 ) {
-    suspend fun getHabits(): Flow<List<Habit>> = withContext(dispatcher) {
+    suspend fun getHabits(): List<Habit> = withContext(dispatcher) {
         return@withContext repository.getHabits()
     }
 }

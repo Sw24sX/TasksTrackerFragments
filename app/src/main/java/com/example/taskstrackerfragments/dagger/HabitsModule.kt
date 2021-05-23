@@ -1,5 +1,6 @@
 package com.example.taskstrackerfragments.dagger
 
+import android.app.Application
 import android.content.Context
 import com.example.data.api.DroidTestService
 import com.example.data.datatask.DataBase
@@ -19,12 +20,10 @@ import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.DataBas
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.Dispatchers
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class HabitsModule(private val context: Context) {
+class HabitsModule() {
 
     @Provides
     fun provideGetHabitUseCase(repository: HabitRepository): GetHabitsUseCase {
@@ -42,20 +41,25 @@ class HabitsModule(private val context: Context) {
     }
 
     @Provides
-    fun provideRepository(localRepository: HabitsLocalRepository, remoteRepository: HabitsRemoteRepository): HabitRepository {
-        return HabitRepositoryImpl(localRepository, remoteRepository)
+    fun provideRepository(remoteRepository: HabitsRemoteRepository): HabitRepository {
+        return HabitRepositoryImpl(remoteRepository)
     }
 
-    @Provides
-    fun provideHabitsLocalRepository(taskDao: TaskDao): HabitsLocalRepository {
-        return HabitsLocalRepositoryImpl(taskDao, HabitLocalMapper())
-    }
+//    @Provides
+//    fun provideHabitsLocalRepository(taskDao: TaskDao): HabitsLocalRepository {
+//        return HabitsLocalRepositoryImpl(taskDao, HabitLocalMapper())
+//    }
 
-    @Provides
-    @Singleton
-    fun provideTaskDao(): TaskDao {
-        return DataBase().getDB(context).taskDao()
-    }
+//    @Provides
+//    fun provideContext(application: Application): Context {
+//        return application.applicationContext
+//    }
+
+//    @Provides
+//    @Singleton
+//    fun provideTaskDao(context: Context): TaskDao {
+//        return DataBase().getDB(context).taskDao()
+//    }
 
     @Provides
     fun provideHabitsRemoteRepository(service: DroidTestService): HabitsRemoteRepository {

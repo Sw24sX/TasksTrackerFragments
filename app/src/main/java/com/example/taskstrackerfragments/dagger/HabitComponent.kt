@@ -1,8 +1,10 @@
 package com.example.taskstrackerfragments.dagger
 
+import android.app.Application
 import com.example.domain.usecases.GetHabitsUseCase
 import com.example.domain.usecases.PushHabitUseCase
 import com.example.domain.usecases.UpdateHabitUseCase
+import com.example.taskstrackerfragments.App
 import dagger.Component
 import javax.inject.Singleton
 

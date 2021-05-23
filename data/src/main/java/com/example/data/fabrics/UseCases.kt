@@ -31,7 +31,7 @@ class UseCases(context: Context) {
         val retrofit = DataBaseHost.buildRetrofit()
         val remoteRepository = HabitsRemoteRepositoryImpl(retrofit.create(DroidTestService::class.java), remoteHabitsMapper)
 
-        val repository = HabitRepositoryImpl(localRepository, remoteRepository)
+        val repository = HabitRepositoryImpl(remoteRepository)
 
         getHabits = GetHabitsUseCase(repository, Dispatchers.IO)
         pushHabit = PushHabitUseCase(repository, Dispatchers.IO)

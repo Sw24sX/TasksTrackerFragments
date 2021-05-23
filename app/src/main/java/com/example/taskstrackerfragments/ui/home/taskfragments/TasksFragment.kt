@@ -9,9 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.example.taskstrackerfragments.OnChangeTask
-import com.example.taskstrackerfragments.OnCreateNewTask
-import com.example.taskstrackerfragments.R
+import com.example.taskstrackerfragments.*
 import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.TasksViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -48,7 +46,7 @@ class TasksFragment: Fragment() {
 
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return TasksViewModel(db, typeTasks, parentFragment!!.viewLifecycleOwner) as T
+                return TasksViewModel(requireActivity() as MainActivity, typeTasks, parentFragment!!.viewLifecycleOwner) as T
             }
         }).get(TasksViewModel::class.java)
     }
