@@ -10,5 +10,4 @@ data class Habit(
     var date: Int,
     var uid: String,
     var id: Int
-) {
-}
+)

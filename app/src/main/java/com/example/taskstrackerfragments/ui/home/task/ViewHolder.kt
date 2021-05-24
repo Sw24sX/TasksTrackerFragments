@@ -1,6 +1,7 @@
 package com.example.taskstrackerfragments.ui.home.task
 
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstrackerfragments.R
@@ -12,8 +13,10 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val countExecution: TextView = itemView.findViewById(R.id.countExecution)
     private val period: TextView = itemView.findViewById(R.id.period)
     private val priority: TextView = itemView.findViewById(R.id.priority)
+    private lateinit var task: Task
 
     fun bind(task: Task, position: Int) {
+        this.task = task
         nameText.text = task.name
         description.text = task.description
         countExecution.text = task.countExecutions

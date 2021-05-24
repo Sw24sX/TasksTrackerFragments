@@ -1,7 +1,9 @@
 package com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel
 
+import android.content.Context
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.lifecycle.*
 import com.example.data.api.DataBaseHost
 import com.example.taskstrackerfragments.R
@@ -17,21 +19,25 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.lang.NumberFormatException
 
-class TasksViewModel(private val applicationComponent: HabitComponent, type: TaskType,
-                     owner: LifecycleOwner):
-        ViewModel(), OnTaskClickListener, OnPutTaskInRecycler, OnTaskLongClickListener {
+class TasksViewModel(private val applicationComponent: HabitComponent,
+                     private val type: TaskType,
+                     owner: LifecycleOwner,
+                     private val context: Context):
+        ViewModel(), OnTaskClickListener, OnPutTaskInRecycler, OnTaskLongClickListener, OnClickPerformListener {
     private val mutableRecyclerAdapterObserver: MutableLiveData<RecyclerAdapter> = MutableLiveData()
     private val mutableOnStateClick: SingleLineEvent<ChangeTaskData> = SingleLineEvent()
     private val mutableOnAddTask: SingleLineEvent<Any> = SingleLineEvent()
+    private val mutableOnPerformClick: SingleLineEvent<ChangeTaskData> = SingleLineEvent()
 
     val onStateClick: LiveData<ChangeTaskData> = mutableOnStateClick
     val recyclerAdapterObserver: LiveData<RecyclerAdapter> = mutableRecyclerAdapterObserver
     val onAddTask: LiveData<Any> = mutableOnAddTask
+    val onPerformClick: LiveData<ChangeTaskData> = mutableOnPerformClick
 
     private var taskListObserver: LiveData<List<Task>> = MutableLiveData()
     private var tasksList: MutableList<Task> = mutableListOf()
     private val recyclerAdapter: RecyclerAdapter = RecyclerAdapter(mutableListOf(),
-            this, this)
+            this, this, this)
     private val mapper = HabitMapper()
 
     init {
@@ -58,10 +64,6 @@ class TasksViewModel(private val applicationComponent: HabitComponent, type: Tas
     }
 
     override fun onStateLongClick(task: Task, position: Int): Boolean {
-        GlobalScope.launch(Dispatchers.IO) {
-            //deleteTask(task)
-//            db.taskDao().delete(mapper.toHabitLocal(task))
-        }
         recyclerAdapter.deleteTask(position)
         return true
     }
@@ -118,5 +120,27 @@ class TasksViewModel(private val applicationComponent: HabitComponent, type: Tas
         recyclerAdapter.updateListTasks(tasks)
     }
 
+    override fun onPerformClick(task: Task, position: Int) {
+        recyclerAdapter.perform(task, position)
+        GlobalScope.launch(Dispatchers.IO) {
+            applicationComponent.getPushHabitUseCase().pushHabit(mapper.toHabit(task))
+        }
+        val toast = Toast.makeText(context, getToastText(task), Toast.LENGTH_SHORT)
+        toast.show()
+    }
 
+    private fun getToastText(task: Task): String {
+        val count = task.countExecutions.toInt()
+        val date = task.date.toInt()
+
+        if (type == TaskType.BAD) {
+            if(count > date)
+                return String.format("Можете делать еще %s раз", count - date)
+            return "Хватит это делать!"
+        }
+
+        if(count < date)
+            return "You are breathtaking!"
+        return String.format("Стоит выполнить еще %s раз", count - date)
+    }
 }
