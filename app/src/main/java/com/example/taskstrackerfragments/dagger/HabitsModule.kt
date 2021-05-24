@@ -15,7 +15,6 @@ import com.example.domain.repositories.HabitRepository
 import com.example.domain.usecases.FillDataBaseUseCase
 import com.example.domain.usecases.GetHabitsUseCase
 import com.example.domain.usecases.PushHabitUseCase
-import com.example.domain.usecases.UpdateHabitUseCase
 import com.example.data.api.DataBaseHost
 import dagger.Module
 import dagger.Provides
@@ -36,11 +35,6 @@ class HabitsModule() {
     }
 
     @Provides
-    fun provideUpdateHabitUseCase(repository: HabitRepository): UpdateHabitUseCase {
-        return UpdateHabitUseCase(repository, Dispatchers.IO)
-    }
-
-    @Provides
     fun provideFillDataBaseUseCase(repository: HabitRepository): FillDataBaseUseCase {
         return FillDataBaseUseCase(repository, Dispatchers.IO)
     }
@@ -54,11 +48,6 @@ class HabitsModule() {
     fun provideHabitsLocalRepository(taskDao: TaskDao): HabitsLocalRepository {
         return HabitsLocalRepositoryImpl(taskDao, HabitLocalMapper())
     }
-
-//    @Provides
-//    fun provideContext(application: Application): Context {
-//        return application.applicationContext
-//    }
 
     @Provides
     @Singleton
