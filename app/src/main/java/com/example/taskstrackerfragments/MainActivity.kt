@@ -13,17 +13,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.taskstrackerfragments.ui.home.task.OnPutTaskInRecycler
 import com.example.data.datatask.Task
-import com.example.data.fabrics.UseCases
-import com.example.taskstrackerfragments.dagger.ContextModule
-import com.example.taskstrackerfragments.dagger.DaggerHabitComponent
-import com.example.taskstrackerfragments.dagger.HabitComponent
-import com.example.taskstrackerfragments.dagger.HabitsModule
 import com.example.taskstrackerfragments.ui.home.taskfragments.ChangeTaskFragment
 
 class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveTask{
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    lateinit var applicationComponent: HabitComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,11 +25,7 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-//        applicationComponent = DaggerHabitComponent.create()
-        applicationComponent = DaggerHabitComponent
-            .builder()
-            .contextModule(ContextModule(this))
-            .build()
+
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)

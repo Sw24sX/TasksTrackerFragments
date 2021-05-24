@@ -10,10 +10,14 @@ class HabitRepositoryImpl(
     private val habitsLocalRepository: HabitsLocalRepository,
     private val habitsRemoteRepository: HabitsRemoteRepository,
 ): HabitRepository {
-    override suspend fun getHabits(): Flow<List<Habit>> {
+
+    override suspend fun fillDataBase() {
         val habits = habitsRemoteRepository.getHabits()
-        return habitsLocalRepository.rewriteHabits(habits)
-//        return habits
+        habitsLocalRepository.writeHabits(habits)
+    }
+
+    override suspend fun getHabits(type: String): Flow<List<Habit>> {
+        return habitsLocalRepository.getHabits(type)
     }
 
     override suspend fun pushHabit(habit: Habit): Habit {

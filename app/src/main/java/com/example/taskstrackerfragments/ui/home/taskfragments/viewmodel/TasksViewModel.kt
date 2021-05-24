@@ -8,6 +8,7 @@ import com.example.taskstrackerfragments.ui.home.task.*
 import com.example.data.datatask.Task
 import com.example.taskstrackerfragments.App
 import com.example.taskstrackerfragments.MainActivity
+import com.example.taskstrackerfragments.dagger.HabitComponent
 import com.example.taskstrackerfragments.mappers.HabitLocalMapper
 import com.example.taskstrackerfragments.mappers.HabitMapper
 import com.example.taskstrackerfragments.ui.home.taskfragments.ChangeTaskData
@@ -17,7 +18,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.lang.NumberFormatException
 
-class TasksViewModel(private val app: MainActivity, type: com.example.data.datatask.TaskType,
+class TasksViewModel(private val applicationComponent: HabitComponent, type: com.example.data.datatask.TaskType,
                      owner: LifecycleOwner):
         ViewModel(), OnTaskClickListener, OnPutTaskInRecycler, OnTaskLongClickListener {
     private val mutableRecyclerAdapterObserver: MutableLiveData<RecyclerAdapter> = MutableLiveData()
@@ -28,6 +29,7 @@ class TasksViewModel(private val app: MainActivity, type: com.example.data.datat
     val recyclerAdapterObserver: LiveData<RecyclerAdapter> = mutableRecyclerAdapterObserver
     val onAddTask: LiveData<Any> = mutableOnAddTask
 
+    private var taskListObserver: LiveData<List<Task>> = MutableLiveData()
     private var tasksList: MutableList<Task> = mutableListOf()
     private val recyclerAdapter: RecyclerAdapter = RecyclerAdapter(mutableListOf(),
             this, this)
@@ -39,18 +41,22 @@ class TasksViewModel(private val app: MainActivity, type: com.example.data.datat
 //            recyclerAdapter.updateListTasks(result)
 //            tasksList = result
 //        })
+        taskListObserver.observe(owner, {
+            tasksList = it.toMutableList()
+            recyclerAdapter.updateListTasks(tasksList)
+        })
+
         GlobalScope.launch(Dispatchers.IO) {
-            val habits = app.applicationComponent.getGetHabitsUseCase().getHabits()
-//            val tasks = habits.map { mapper.toTask(it) }.toMutableList()
-//            recyclerAdapter.updateListTasks(tasks)
-//            tasksList = tasks
+            val habits = applicationComponent.getGetHabitsUseCase().getHabits(type.toString()).asLiveData()
             GlobalScope.launch(Dispatchers.Main) {
-                recyclerAdapter.updateListTasks(tasksList)
+                habits.map { list ->  list.map { mapper.toTask(it) } }.observe(owner, {
+                    tasksList = it.toMutableList()
+                    recyclerAdapter.updateListTasks(tasksList)
+                })
             }
         }
 
         mutableRecyclerAdapterObserver.value = recyclerAdapter
-
     }
 
     override fun onStateClick(task: Task, position: Int) {

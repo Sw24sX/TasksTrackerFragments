@@ -12,6 +12,7 @@ import com.example.data.repositoriesimpl.HabitRepositoryImpl
 import com.example.data.repositoriesimpl.HabitsLocalRepositoryImpl
 import com.example.data.repositoriesimpl.HabitsRemoteRepositoryImpl
 import com.example.domain.repositories.HabitRepository
+import com.example.domain.usecases.FillDataBaseUseCase
 import com.example.domain.usecases.GetHabitsUseCase
 import com.example.domain.usecases.PushHabitUseCase
 import com.example.domain.usecases.UpdateHabitUseCase
@@ -37,6 +38,11 @@ class HabitsModule() {
     @Provides
     fun provideUpdateHabitUseCase(repository: HabitRepository): UpdateHabitUseCase {
         return UpdateHabitUseCase(repository, Dispatchers.IO)
+    }
+
+    @Provides
+    fun provideFillDataBaseUseCase(repository: HabitRepository): FillDataBaseUseCase {
+        return FillDataBaseUseCase(repository, Dispatchers.IO)
     }
 
     @Provides

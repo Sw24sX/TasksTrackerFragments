@@ -46,7 +46,7 @@ class TasksFragment: Fragment() {
 
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return TasksViewModel(requireActivity() as MainActivity, typeTasks, parentFragment!!.viewLifecycleOwner) as T
+                return TasksViewModel((activity!!.applicationContext as App).applicationComponent, typeTasks, parentFragment!!.viewLifecycleOwner) as T
             }
         }).get(TasksViewModel::class.java)
     }

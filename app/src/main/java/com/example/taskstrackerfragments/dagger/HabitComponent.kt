@@ -1,6 +1,7 @@
 package com.example.taskstrackerfragments.dagger
 
 import android.app.Application
+import com.example.domain.usecases.FillDataBaseUseCase
 import com.example.domain.usecases.GetHabitsUseCase
 import com.example.domain.usecases.PushHabitUseCase
 import com.example.domain.usecases.UpdateHabitUseCase
@@ -14,4 +15,5 @@ interface HabitComponent {
     fun getGetHabitsUseCase(): GetHabitsUseCase
     fun getPushHabitUseCase(): PushHabitUseCase
     fun getUpdateHabitUseCase(): UpdateHabitUseCase
+    fun getFillDataBaseUseCase(): FillDataBaseUseCase
 }

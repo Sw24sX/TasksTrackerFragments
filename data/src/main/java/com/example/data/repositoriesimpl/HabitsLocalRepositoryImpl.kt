@@ -12,8 +12,12 @@ class HabitsLocalRepositoryImpl(
     private val taskDao: TaskDao,
     private val mapper: HabitLocalMapper
 ): HabitsLocalRepository {
-    override suspend fun rewriteHabits(habits: List<Habit>): Flow<List<Habit>> {
-        return taskDao.getAll().map { list -> list.map { mapper.toHabit(it) } }
+
+    override suspend fun writeHabits(habits: List<Habit>) {
+        taskDao.clearDB()
+        habits.forEach {
+            taskDao.insert(mapper.toHabitLocal(it))
+        }
     }
 
     override suspend fun pushHabit(habit: Habit): Habit {
@@ -28,5 +32,9 @@ class HabitsLocalRepositoryImpl(
 
     override suspend fun deleteHabit(habit: Habit) {
         taskDao.delete(mapper.toHabitLocal(habit))
+    }
+
+    override suspend fun getHabits(type: String): Flow<List<Habit>> {
+        return taskDao.getTasksByType(type).map { list -> list.map { mapper.toHabit(it) } }
     }
 }

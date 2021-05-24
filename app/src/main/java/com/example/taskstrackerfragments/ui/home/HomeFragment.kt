@@ -8,15 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
 import com.example.taskstrackerfragments.R
 import com.example.taskstrackerfragments.ui.home.homeviewmodel.HomeViewModel
-import com.example.data.datatask.AppDatabase
-import com.example.data.datatask.DataBase
-import com.example.data.fabrics.UseCases
-import com.example.taskstrackerfragments.MainActivity
-import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.TasksViewModel
+import com.example.taskstrackerfragments.App
+import com.example.taskstrackerfragments.dagger.HabitComponent
 import com.example.taskstrackerfragments.ui.home.viewpager.PageViewAdapter
 import com.google.android.material.tabs.TabLayout
 
@@ -29,19 +25,18 @@ class HomeFragment : Fragment() {
         activityContext = context
 
     }
-
+    lateinit var applicationComponent: HabitComponent
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-
+        applicationComponent = (requireActivity().applicationContext as App).applicationComponent
         val db = com.example.data.datatask.DataBase().getDB(activityContext)
-        val useCases = UseCases(activityContext)
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return HomeViewModel(useCases) as T
+                return HomeViewModel(applicationComponent) as T
             }
         }).get(HomeViewModel::class.java)
 
