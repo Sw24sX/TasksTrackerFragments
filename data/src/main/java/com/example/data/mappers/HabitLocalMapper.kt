@@ -1,8 +1,6 @@
 package com.example.data.mappers
 
-import com.example.data.datatask.Task
 import com.example.data.entities.HabitLocal
-import com.example.data.entities.HabitRemote
 import com.example.domain.entities.Habit
 import java.io.IOException
 
@@ -16,7 +14,7 @@ class HabitLocalMapper {
         val type: Int = if(habitLocal.type == "GOOD") 0 else 1
         val date: Int = getZeroOrValue(habitLocal.date)
         val uid: String = habitLocal.uid ?: ""
-        return Habit(name, description, priority, count, frequency, type, date, uid)
+        return Habit(name, description, priority, count, frequency, type, date, uid, habitLocal.id)
     }
 
     private fun getZeroOrValue(value: String?): Int {
@@ -31,10 +29,12 @@ class HabitLocalMapper {
         val type = if(habit.type == 0) "GOOD" else "BAD"
         val name = if(habit.name == " ") "" else habit.name
         val description = if(habit.description == " ") "" else habit.description
-        return HabitLocal(
+        val res = HabitLocal(
             name, description, habit.countExecute.toString(),
             habit.period.toString(), habit.priority.toString(), type,
             habit.uid, habit.date.toString()
         )
+        res.id = habit.id
+        return res
     }
 }

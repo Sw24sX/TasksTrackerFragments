@@ -18,11 +18,16 @@ class HabitsRemoteRepositoryImpl(
     }
 
     override suspend fun pushHabit(habit: Habit): Habit {
-        val habitRemote = service
+        if(habit.uid != " " && habit.uid.isNotEmpty())
+            habit.date++ //todo change
+        val response = service
             .putHabit(mapper.toHabitRemote(habit))
             .execute()
-            .body()
-        return mapper.toHabit(habitRemote!!)
+        val status = response.code()
+        val habitRemote = response.body()
+        if (habitRemote != null)
+            habit.uid = habitRemote!!.uid
+        return habit
     }
 
     override suspend fun updateHabit(habit: Habit): Habit {

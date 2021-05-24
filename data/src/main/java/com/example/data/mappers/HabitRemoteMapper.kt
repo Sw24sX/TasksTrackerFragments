@@ -13,12 +13,13 @@ class HabitRemoteMapper {
             habitRemote.period,
             habitRemote.type,
             habitRemote.date,
-            habitRemote.uid
+            habitRemote.uid,
+            habitRemote.id
         )
     }
 
     fun toHabitRemote(habit: Habit): HabitRemote {
-        return HabitRemote(
+        val result = HabitRemote(
             habit.name,
             habit.description,
             habit.priority,
@@ -28,5 +29,7 @@ class HabitRemoteMapper {
             habit.date,
             habit.uid
         )
+        result.id = habit.id
+        return result
     }
 }

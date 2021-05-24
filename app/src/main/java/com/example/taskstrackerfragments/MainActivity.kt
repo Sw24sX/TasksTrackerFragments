@@ -12,7 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.taskstrackerfragments.ui.home.task.OnPutTaskInRecycler
-import com.example.data.datatask.Task
+import com.example.taskstrackerfragments.entities.Task
+import com.example.taskstrackerfragments.entities.TaskType
 import com.example.taskstrackerfragments.ui.home.taskfragments.ChangeTaskFragment
 
 class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveTask{
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
             returnTask = savedInstanceState.getSerializable(RETURN_TASK) as OnPutTaskInRecycler
     }
 
-    override fun createTask(fragment: OnPutTaskInRecycler, typeTask: com.example.data.datatask.TaskType) {
+    override fun createTask(fragment: OnPutTaskInRecycler, typeTask: TaskType) {
         returnTask = fragment
         supportFragmentManager.beginTransaction()
                 .hide(supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!)
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
                 .commit()
     }
 
-    override fun saveTask(task: Task, fragment: Fragment, typeTask: com.example.data.datatask.TaskType) {
+    override fun saveTask(task: Task, fragment: Fragment, typeTask: TaskType) {
         supportFragmentManager.beginTransaction()
             .remove(fragment)
             .show(supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!)
@@ -76,7 +77,7 @@ class MainActivity : AppCompatActivity(), OnChangeTask, OnCreateNewTask, OnSaveT
         position = null
     }
 
-    override fun changeTask(task: Task, position: Int, putTaskInRecycler: OnPutTaskInRecycler, typeTask: com.example.data.datatask.TaskType) {
+    override fun changeTask(task: Task, position: Int, putTaskInRecycler: OnPutTaskInRecycler, typeTask: TaskType) {
         this.returnTask = putTaskInRecycler
         this.position = position
         supportFragmentManager.beginTransaction()

@@ -10,13 +10,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstrackerfragments.*
+import com.example.taskstrackerfragments.entities.TaskType
 import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.TasksViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class TasksFragment: Fragment() {
     companion object {
-        fun newInstance(typeTask: com.example.data.datatask.TaskType, db: com.example.data.datatask.AppDatabase): TasksFragment {
+        fun newInstance(typeTask: TaskType, db: com.example.data.datatask.AppDatabase): TasksFragment {
             val args = Bundle()
             args.putSerializable(TYPE_TASK, typeTask)
             args.putSerializable(DB, db)
@@ -31,7 +32,7 @@ class TasksFragment: Fragment() {
 
     private lateinit var activityContext: Context
     lateinit var viewModel: TasksViewModel
-    private lateinit var typeTasks: com.example.data.datatask.TaskType
+    private lateinit var typeTasks: TaskType
     private lateinit var db: com.example.data.datatask.AppDatabase
 
 
@@ -40,7 +41,7 @@ class TasksFragment: Fragment() {
         activityContext = context
 
         arguments?.let {
-            typeTasks = it.getSerializable(TYPE_TASK) as com.example.data.datatask.TaskType
+            typeTasks = it.getSerializable(TYPE_TASK) as TaskType
             db = it.getSerializable(DB) as com.example.data.datatask.AppDatabase
         }
 

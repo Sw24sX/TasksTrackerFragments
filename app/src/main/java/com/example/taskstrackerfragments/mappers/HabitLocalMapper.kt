@@ -1,6 +1,6 @@
 package com.example.taskstrackerfragments.mappers
 
-import com.example.data.datatask.Task
+import com.example.taskstrackerfragments.entities.Task
 import com.example.data.entities.HabitLocal
 
 class HabitLocalMapper {

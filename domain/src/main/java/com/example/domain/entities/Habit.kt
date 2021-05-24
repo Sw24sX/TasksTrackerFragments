@@ -8,6 +8,7 @@ data class Habit(
     val period: Int,
     val type: Int,
     var date: Int,
-    val uid: String
+    var uid: String,
+    var id: Int
 ) {
 }

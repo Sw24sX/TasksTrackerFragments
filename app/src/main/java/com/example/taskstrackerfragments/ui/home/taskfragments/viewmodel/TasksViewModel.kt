@@ -3,13 +3,12 @@ package com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel
 import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.*
+import com.example.data.api.DataBaseHost
 import com.example.taskstrackerfragments.R
 import com.example.taskstrackerfragments.ui.home.task.*
-import com.example.data.datatask.Task
-import com.example.taskstrackerfragments.App
-import com.example.taskstrackerfragments.MainActivity
+import com.example.taskstrackerfragments.entities.Task
 import com.example.taskstrackerfragments.dagger.HabitComponent
-import com.example.taskstrackerfragments.mappers.HabitLocalMapper
+import com.example.taskstrackerfragments.entities.TaskType
 import com.example.taskstrackerfragments.mappers.HabitMapper
 import com.example.taskstrackerfragments.ui.home.taskfragments.ChangeTaskData
 import com.example.taskstrackerfragments.ui.home.taskfragments.SingleLineEvent
@@ -18,7 +17,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.lang.NumberFormatException
 
-class TasksViewModel(private val applicationComponent: HabitComponent, type: com.example.data.datatask.TaskType,
+class TasksViewModel(private val applicationComponent: HabitComponent, type: TaskType,
                      owner: LifecycleOwner):
         ViewModel(), OnTaskClickListener, OnPutTaskInRecycler, OnTaskLongClickListener {
     private val mutableRecyclerAdapterObserver: MutableLiveData<RecyclerAdapter> = MutableLiveData()
@@ -36,11 +35,6 @@ class TasksViewModel(private val applicationComponent: HabitComponent, type: com
     private val mapper = HabitMapper()
 
     init {
-//        db.taskDao().getTasksByType(type.toString()).asLiveData().observe(owner, {
-//            var result = it.map { item -> mapper.toTask(item) }.toMutableList()
-//            recyclerAdapter.updateListTasks(result)
-//            tasksList = result
-//        })
         taskListObserver.observe(owner, {
             tasksList = it.toMutableList()
             recyclerAdapter.updateListTasks(tasksList)
@@ -74,12 +68,7 @@ class TasksViewModel(private val applicationComponent: HabitComponent, type: com
 
     override fun putTaskInRecycler(task: Task, position: Int?) {
         GlobalScope.launch(Dispatchers.Default) {
-            val taskUid = DataBaseHost.putTask(task)
-
-//            if (taskUid.id != 0) {
-//                db.taskDao().update(mapper.toHabitLocal(taskUid))
-//            } else
-//                db.taskDao().insert(mapper.toHabitLocal(taskUid))
+            applicationComponent.getPushHabitUseCase().pushHabit(mapper.toHabit(task))
         }
         recyclerAdapter.updateTask(task, position)
     }

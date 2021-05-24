@@ -11,7 +11,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.taskstrackerfragments.OnSaveTask
 import com.example.taskstrackerfragments.R
-import com.example.data.datatask.Task
+import com.example.taskstrackerfragments.entities.Task
+import com.example.taskstrackerfragments.entities.TaskType
 
 class ChangeTaskFragment: Fragment() {
     private lateinit var activityContext: Context
@@ -28,14 +29,14 @@ class ChangeTaskFragment: Fragment() {
     }
 
     private var task: Task? = null
-    private lateinit var typeTask: com.example.data.datatask.TaskType
+    private lateinit var typeTask: TaskType
     private lateinit var viewModel: ChangeTaskViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             task = it.getSerializable(TASK) as Task?
-            typeTask = it.getSerializable(TASK_TYPE) as com.example.data.datatask.TaskType
+            typeTask = it.getSerializable(TASK_TYPE) as TaskType
         }
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -101,7 +102,7 @@ class ChangeTaskFragment: Fragment() {
         const val TASK: String = "Task"
         const val TASK_TYPE: String = "task_type"
 
-        fun newInstance(type: com.example.data.datatask.TaskType) : ChangeTaskFragment {
+        fun newInstance(type: TaskType) : ChangeTaskFragment {
             val args = Bundle()
             args.putSerializable(TASK_TYPE, type)
             val result = ChangeTaskFragment()
@@ -109,7 +110,7 @@ class ChangeTaskFragment: Fragment() {
             return result
         }
 
-        fun newInstance(task: Task, type: com.example.data.datatask.TaskType) : ChangeTaskFragment {
+        fun newInstance(task: Task, type: TaskType) : ChangeTaskFragment {
             val args = Bundle()
             args.putSerializable(TASK, task)
             args.putSerializable(TASK_TYPE, type)

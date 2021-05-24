@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskstrackerfragments.R
-import com.example.data.datatask.Task
+import com.example.taskstrackerfragments.entities.Task
 
 class RecyclerAdapter(private var tasks: MutableList<Task>,
                       private val onClickListener: OnTaskClickListener,

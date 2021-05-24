@@ -3,9 +3,10 @@ package com.example.taskstrackerfragments.ui.home.taskfragments
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.data.datatask.Task
+import com.example.taskstrackerfragments.entities.Task
+import com.example.taskstrackerfragments.entities.TaskType
 
-class ChangeTaskViewModel(private var _task: Task?, typeTask: com.example.data.datatask.TaskType): ViewModel() {
+class ChangeTaskViewModel(private var _task: Task?, typeTask: TaskType): ViewModel() {
     private val mutableOnSaveTask: MutableLiveData<Task> = MutableLiveData()
     private val mutableTask: MutableLiveData<Task> = MutableLiveData()
 

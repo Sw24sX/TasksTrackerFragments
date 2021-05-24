@@ -1,4 +1,4 @@
-package com.example.data.datatask
+package com.example.taskstrackerfragments.entities
 
 import java.io.Serializable
 

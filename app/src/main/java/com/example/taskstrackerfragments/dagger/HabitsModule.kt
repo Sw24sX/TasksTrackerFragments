@@ -16,7 +16,7 @@ import com.example.domain.usecases.FillDataBaseUseCase
 import com.example.domain.usecases.GetHabitsUseCase
 import com.example.domain.usecases.PushHabitUseCase
 import com.example.domain.usecases.UpdateHabitUseCase
-import com.example.taskstrackerfragments.ui.home.taskfragments.viewmodel.DataBaseHost
+import com.example.data.api.DataBaseHost
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.Dispatchers
